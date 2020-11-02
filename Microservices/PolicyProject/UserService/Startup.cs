@@ -1,10 +1,12 @@
 using System;
+using DevelopmentLogger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using UserService.Models;
 
 namespace UserService
@@ -33,10 +35,11 @@ namespace UserService
             services.AddControllers();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
+                loggerFactory.AddProvider(new CustomDevelopmentLoggerProvider("UserService.log"));
                 app.UseDeveloperExceptionPage();
             }
 

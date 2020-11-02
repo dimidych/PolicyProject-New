@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using UserService.Models;
 
 namespace UserService.Controllers
@@ -13,13 +14,16 @@ namespace UserService.Controllers
     public class UserApiController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
+        private readonly ILogger _logger;
 
-        public UserApiController(IUserRepository userRepository)
+        public UserApiController(IUserRepository userRepository, ILogger logger)
         {
             _userRepository = userRepository;
+            _logger = logger;
         }
 
         [HttpGet]
+        [Route("GetUsers")]
         [ProducesResponseType(typeof(IEnumerable<User>), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         [ProducesResponseType((int) HttpStatusCode.NotFound)]
@@ -29,19 +33,21 @@ namespace UserService.Controllers
             {
                 var result = await _userRepository.GetUser();
 
-                if (result == null || !result.Any())
-                    return NotFound();
+                if (result != null && result.Any())
+                    return Ok(result);
 
-                return Ok(result);
+                _logger.Log(LogLevel.Warning, "Empty user repository");
+                return NotFound();
             }
             catch (Exception ex)
             {
+                _logger.Log(LogLevel.Error, $"Error while call GetUsers - {ex}");
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpGet]
-        [Route("{userId}")]
+        [Route("GetUser/{userId}")]
         [ProducesResponseType(typeof(User), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         [ProducesResponseType((int) HttpStatusCode.NotFound)]
@@ -51,18 +57,21 @@ namespace UserService.Controllers
             {
                 var result = await _userRepository.GetUser(userId);
 
-                if (result == null || !result.Any())
-                    return NotFound();
+                if (result != null && result.Any())
+                    return Ok(result.FirstOrDefault());
 
-                return Ok(result.FirstOrDefault());
+                _logger.Log(LogLevel.Warning, $"Couldn't find user with id {userId}");
+                return NotFound();
             }
             catch (Exception ex)
             {
+                _logger.Log(LogLevel.Error, $"Error while call GetUser - {ex}");
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpPost]
+        [Route("AddUser")]
         [ProducesResponseType(typeof(User), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
@@ -72,18 +81,21 @@ namespace UserService.Controllers
             {
                 var result = await _userRepository.AddUser(newUser);
 
-                if (result == null)
-                    return StatusCode(500);
+                if (result != null)
+                    return Ok(result);
 
-                return Ok(result);
+                _logger.Log(LogLevel.Warning, $"Couldn't add user {newUser.UserName}");
+                return StatusCode((int) HttpStatusCode.InternalServerError);
             }
             catch (Exception ex)
             {
+                _logger.Log(LogLevel.Error, $"Error while call AddUser - {ex}");
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpPut]
+        [Route("UpdateUser")]
         [ProducesResponseType(typeof(User), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
@@ -93,18 +105,21 @@ namespace UserService.Controllers
             {
                 var result = await _userRepository.UpdateUser(user);
 
-                if (!result)
-                    return StatusCode(500);
+                if (result)
+                    return Ok(user);
 
-                return Ok(user);
+                _logger.Log(LogLevel.Warning, $"Couldn't update user {user.UserName}");
+                return StatusCode((int) HttpStatusCode.InternalServerError);
             }
             catch (Exception ex)
             {
+                _logger.Log(LogLevel.Error, $"Error while call UpdateUser - {ex}");
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpDelete]
+        [Route("DeleteUser")]
         [ProducesResponseType(typeof(User), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
@@ -114,13 +129,15 @@ namespace UserService.Controllers
             {
                 var result = await _userRepository.DeleteUser(userId);
 
-                if (!result)
-                    return StatusCode(500);
+                if (result)
+                    return Ok();
 
-                return Ok();
+                _logger.Log(LogLevel.Warning, $"Couldn't delete user with id {userId}");
+                return StatusCode((int) HttpStatusCode.InternalServerError);
             }
             catch (Exception ex)
             {
+                _logger.Log(LogLevel.Error, $"Error while call DeleteUser - {ex}");
                 return BadRequest(ex.Message);
             }
         }

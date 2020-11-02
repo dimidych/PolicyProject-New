@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace GroupService
+namespace DeviceService
 {
     public class Startup
     {
@@ -21,16 +21,15 @@ namespace GroupService
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var groupDbConnStr = Configuration.GetConnectionString("GroupDbConnection");
-            services.AddDbContext<GroupDbContext>(options => options.UseSqlServer(groupDbConnStr,
+            var userDbConnStr = Configuration.GetConnectionString("DeviceDbConnection");
+            services.AddDbContext<DeviceDbContext>(options => options.UseSqlServer(userDbConnStr,
                 sqlOptions =>
                 {
-                    sqlOptions.
-                        EnableRetryOnFailure(maxRetryCount: 5,
-                            maxRetryDelay: TimeSpan.FromSeconds(30),
-                            errorNumbersToAdd: null);
+                    sqlOptions.EnableRetryOnFailure(maxRetryCount: 5,
+                        maxRetryDelay: TimeSpan.FromSeconds(30),
+                        errorNumbersToAdd: null);
                 }));
-            services.AddScoped(typeof(IGroupRepository), typeof(GroupRepository));
+            services.AddScoped(typeof(IDeviceRepository), typeof(DeviceRepository));
             services.AddControllers();
         }
 
@@ -38,7 +37,7 @@ namespace GroupService
         {
             if (env.IsDevelopment())
             {
-                loggerFactory.AddProvider(new CustomDevelopmentLoggerProvider("GroupService.log"));
+                loggerFactory.AddProvider(new CustomDevelopmentLoggerProvider("DeviceService.log"));
                 app.UseDeveloperExceptionPage();
             }
 
@@ -48,10 +47,7 @@ namespace GroupService
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }

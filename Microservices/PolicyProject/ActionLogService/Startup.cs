@@ -1,4 +1,5 @@
 using System;
+using ActionLogService.Models;
 using DevelopmentLogger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace GroupService
+namespace ActionLogService
 {
     public class Startup
     {
@@ -21,16 +22,15 @@ namespace GroupService
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var groupDbConnStr = Configuration.GetConnectionString("GroupDbConnection");
-            services.AddDbContext<GroupDbContext>(options => options.UseSqlServer(groupDbConnStr,
+            var userDbConnStr = Configuration.GetConnectionString("ActionLogDbConnection");
+            services.AddDbContext<ActionLogDbContext>(options => options.UseSqlServer(userDbConnStr,
                 sqlOptions =>
                 {
-                    sqlOptions.
-                        EnableRetryOnFailure(maxRetryCount: 5,
-                            maxRetryDelay: TimeSpan.FromSeconds(30),
-                            errorNumbersToAdd: null);
+                    sqlOptions.EnableRetryOnFailure(maxRetryCount: 5,
+                        maxRetryDelay: TimeSpan.FromSeconds(30),
+                        errorNumbersToAdd: null);
                 }));
-            services.AddScoped(typeof(IGroupRepository), typeof(GroupRepository));
+            services.AddScoped(typeof(IActionLogRepository), typeof(ActionLogRepository));
             services.AddControllers();
         }
 
@@ -38,7 +38,7 @@ namespace GroupService
         {
             if (env.IsDevelopment())
             {
-                loggerFactory.AddProvider(new CustomDevelopmentLoggerProvider("GroupService.log"));
+                loggerFactory.AddProvider(new CustomDevelopmentLoggerProvider("ActionLogService.log"));
                 app.UseDeveloperExceptionPage();
             }
 

@@ -7,7 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GroupService", "GroupServic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevelopmentLogger", "DevelopmentLogger\DevelopmentLogger.csproj", "{3716745C-FD58-4F12-88C2-AB96D9775E0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService", "UserService\UserService.csproj", "{2CB6AC97-AC4D-49B4-BE22-73FB9C46D8ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService", "UserService\UserService.csproj", "{2CB6AC97-AC4D-49B4-BE22-73FB9C46D8ED}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviceService", "DeviceService\DeviceService.csproj", "{D196DA20-F665-4E94-A896-FF3C897ED033}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActionLogService", "ActionLogService\ActionLogService.csproj", "{4EE217D1-C95F-4DD2-A216-68F17F6D1A7E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{2CB6AC97-AC4D-49B4-BE22-73FB9C46D8ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CB6AC97-AC4D-49B4-BE22-73FB9C46D8ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CB6AC97-AC4D-49B4-BE22-73FB9C46D8ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D196DA20-F665-4E94-A896-FF3C897ED033}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D196DA20-F665-4E94-A896-FF3C897ED033}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D196DA20-F665-4E94-A896-FF3C897ED033}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D196DA20-F665-4E94-A896-FF3C897ED033}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EE217D1-C95F-4DD2-A216-68F17F6D1A7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EE217D1-C95F-4DD2-A216-68F17F6D1A7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EE217D1-C95F-4DD2-A216-68F17F6D1A7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EE217D1-C95F-4DD2-A216-68F17F6D1A7E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
