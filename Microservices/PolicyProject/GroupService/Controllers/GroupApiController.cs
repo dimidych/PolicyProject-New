@@ -119,7 +119,7 @@ namespace GroupService.Controllers
 
         [HttpDelete]
         [Route("DeleteGroup")]
-        [ProducesResponseType(typeof(Group), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteGroup([FromRoute] int groupId)

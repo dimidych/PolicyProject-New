@@ -143,7 +143,7 @@ namespace DeviceService.Controllers
 
         [HttpPost]
         [Route("AddDevicePlatform")]
-        [ProducesResponseType(typeof(Device), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(DevicePlatform), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<DevicePlatform>> AddDevicePlatform([FromBody] DevicePlatform newDevicePlatform)
@@ -191,7 +191,7 @@ namespace DeviceService.Controllers
 
         [HttpDelete]
         [Route("DeleteDevice")]
-        [ProducesResponseType(typeof(Device), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteDevice([FromRoute] int deviceId)

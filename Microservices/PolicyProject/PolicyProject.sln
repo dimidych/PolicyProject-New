@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviceService", "DeviceServ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActionLogService", "ActionLogService\ActionLogService.csproj", "{4EE217D1-C95F-4DD2-A216-68F17F6D1A7E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoginService", "LoginService\LoginService.csproj", "{5D304C58-93C9-4683-881D-2E44F9F3F319}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{4EE217D1-C95F-4DD2-A216-68F17F6D1A7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EE217D1-C95F-4DD2-A216-68F17F6D1A7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4EE217D1-C95F-4DD2-A216-68F17F6D1A7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D304C58-93C9-4683-881D-2E44F9F3F319}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D304C58-93C9-4683-881D-2E44F9F3F319}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D304C58-93C9-4683-881D-2E44F9F3F319}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D304C58-93C9-4683-881D-2E44F9F3F319}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -132,7 +132,7 @@ namespace DeviceService
             if (existedDevice == null)
                 throw new Exception($"Устройство c id {deviceId} не существует");
 
-            _dbContext.Remove(existedDevice);
+            _dbContext.Devices.Remove(existedDevice);
             var deleted = await _dbContext.SaveChangesAsync();
             return deleted > 0;
         }

@@ -71,7 +71,7 @@ namespace GroupService
             if (existedGroup == null)
                 throw new Exception("Группа не найдена");
 
-            _dbContext.Remove(existedGroup);
+            _dbContext.Groups.Remove(existedGroup);
             var deleted = await _dbContext.SaveChangesAsync();
             return deleted > 0;
         }

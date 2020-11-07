@@ -120,7 +120,7 @@ namespace UserService.Controllers
 
         [HttpDelete]
         [Route("DeleteUser")]
-        [ProducesResponseType(typeof(User), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteUser([FromRoute] int userId)

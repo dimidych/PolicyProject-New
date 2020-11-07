@@ -75,7 +75,7 @@ namespace UserService.Models
             if (existedUser == null)
                 throw new Exception("Пользователь не найден");
 
-            _dbContext.Remove(existedUser);
+            _dbContext.Users.Remove(existedUser);
             var deleted = await _dbContext.SaveChangesAsync();
             return deleted > 0;
         }
