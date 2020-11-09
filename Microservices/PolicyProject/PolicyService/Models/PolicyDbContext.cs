@@ -2,21 +2,23 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace UserService.Models
+namespace PolicyService.Models
 {
-    public class UserDbContext : DbContext
+    public class PolicyDbContext : DbContext
     {
-        public UserDbContext(DbContextOptions<UserDbContext> contextOptions) : base(contextOptions)
+        public PolicyDbContext(DbContextOptions<PolicyDbContext> dbContextOptions) : base(dbContextOptions)
         {
         }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<DevicePlatform> DevicePlatforms { get; set; }
+
+        public DbSet<Policy> Policies { get; set; }
 
         public static readonly ILoggerFactory MyDevelopmentLoggerFactory
             = LoggerFactory.Create(builder => builder
                 .AddFilter((category, level) => category == DbLoggerCategory.Database.Command.Name
                                                 && level == LogLevel.Information)
-                .AddProvider(new CustomDevelopmentLoggerProvider("UserDb.log")));
+                .AddProvider(new CustomDevelopmentLoggerProvider("PolicyDb.log")));
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -25,7 +27,7 @@ namespace UserService.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasData(new User {UserId = 1, UserLastName = "Admin", UserFirstName = "Admin"});
+            modelBuilder.Entity<Policy>().HasOne(x => x.Platform);
         }
     }
 }

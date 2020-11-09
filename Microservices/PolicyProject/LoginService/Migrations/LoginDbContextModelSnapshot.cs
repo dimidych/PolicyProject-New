@@ -28,9 +28,21 @@ namespace LoginService.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
                     b.HasKey("GroupId");
 
                     b.ToTable("Groups");
+
+                    b.HasData(
+                        new
+                        {
+                            GroupId = 1,
+                            GroupName = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("LoginService.Models.Login", b =>
@@ -41,10 +53,7 @@ namespace LoginService.Migrations
                     b.Property<string>("Certificate")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("GroupId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int?>("GroupId1")
+                    b.Property<int>("GroupId")
                         .HasColumnType("int");
 
                     b.Property<string>("LogIn")
@@ -64,11 +73,22 @@ namespace LoginService.Migrations
 
                     b.HasKey("LoginId");
 
-                    b.HasIndex("GroupId1");
+                    b.HasIndex("GroupId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Logins");
+
+                    b.HasData(
+                        new
+                        {
+                            LoginId = 1L,
+                            Certificate = "BwIAAACkAABSU0EyAAQAAAEAAQD7UC1a+XSlxZZEOAJBXoCsNzTHC4BbE7yCBQGSdaThAI1tEBOlkorPC3BR5znSghSYoEi5ObTTAk7P4FBwMYwZR/dFpyZPAH0jpRK387oCH1fmvZX9QQhtTjX8Pxp797h67UW+FoxhpZsXk6AHJ5uKVSPiQ5aFpxrLLjOsLZgjmRmilI2rvBndG6u4jGCAkIK6aJcgkAI82jXBu5/tL5/8LMgeJP4k7Kkwq9GxOQ9TVyxLQ3BfsbkxiXpvC9Ns4sAz9tVrdG1wFFjgN46RjxaY2z5v0EVGFK4kDETKmOmphVTDphJp0PKg6dL3am8JvUXO3rjhYiR/+EU1d9GkxD/LMb3v9pJuoYkLTmYilkcWTbwZOoHBuKOMRlI+ULiphoaAoYJL7BtyK9BdR+jmdUl8PDWWYRK9r9XWw6v+7Sqftis/6bSDomSRYa6tLaRXRuigc4BddGNmiDkDfqyNuEM8dOyr775Qiw6QLH15HqZ9GqCv6FQR3JWrgn/9x5KeZHUuGDmRBmfKuEyOWNQzrjDX9ww+cNBNhKLu8vhkYTIW2ioCouzJi7h97b/jXX4avR4p0vVWMp6q47DaqTyT+yaZca1u0vmm1sazN6j9yw8UbKd6KFevrMkUfSyHpOu1D2jvFsreo9tdLYzhs731bWDVA0Vlk4l1pTtSqTjv+NjY13Wd50rr/V1VDcrR8lZ52dVebNnYSh/FHicOzxVMM7WKxIFQedxqdH95EjRNMk4Vn3Souk5pgVWXhmzy6cdfbAQ=",
+                            GroupId = 1,
+                            LogIn = "Admin",
+                            Password = "827ccb0eea8a706c4c34a16891f84e7b",
+                            UserId = 1L
+                        });
                 });
 
             modelBuilder.Entity("LoginService.Models.User", b =>
@@ -82,13 +102,22 @@ namespace LoginService.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1L,
+                            UserName = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("LoginService.Models.Login", b =>
                 {
                     b.HasOne("LoginService.Models.Group", "Group")
                         .WithMany()
-                        .HasForeignKey("GroupId1");
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("LoginService.Models.User", "User")
                         .WithMany()

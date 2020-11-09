@@ -1,16 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace LoginService.Models
+namespace PolicyService.Models
 {
-    public class Group
+    public class DevicePlatform
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int GroupId { get; set; }
+        public short DevicePlatformId { get; set; }
 
         [Required]
-        public string GroupName { get; set; }
+        public string DevicePlatformName { get; set; }
 
         [Timestamp]
         public byte[] Timestamp { get; set; }

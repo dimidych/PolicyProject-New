@@ -46,7 +46,6 @@ namespace LoginService.Controllers
             }
         }
 
-
         [HttpGet]
         [Route("GetGroup/{groupId}")]
         [ProducesResponseType(typeof(Group), (int) HttpStatusCode.OK)]

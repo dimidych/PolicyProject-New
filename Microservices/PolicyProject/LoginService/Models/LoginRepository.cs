@@ -71,6 +71,12 @@ namespace LoginService.Models
             if (string.IsNullOrEmpty(newLogin.Password))
                 throw new ArgumentException("Пароль не задан");
 
+            if (newLogin.UserId < 1)
+                throw new ArgumentException("Пользователь не задан");
+
+            if (newLogin.GroupId < 1)
+                throw new ArgumentException("Группа не задан");
+
             var existed = await _dbContext.Logins.AsNoTracking().FirstOrDefaultAsync(x =>
                 x.LogIn.Equals(newLogin.LogIn, StringComparison.InvariantCultureIgnoreCase));
 
@@ -91,6 +97,12 @@ namespace LoginService.Models
 
             if (string.IsNullOrEmpty(login.Password))
                 throw new ArgumentException("Пароль не задан");
+
+            if (login.UserId<1)
+                throw new ArgumentException("Пользователь не задан");
+
+            if (login.GroupId < 1)
+                throw new ArgumentException("Группа не задан");
 
             var existed = await _dbContext.Logins.FirstOrDefaultAsync(x =>
                 x.LogIn.Equals(login.LogIn, StringComparison.InvariantCultureIgnoreCase));

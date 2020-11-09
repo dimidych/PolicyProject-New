@@ -11,5 +11,8 @@ namespace DeviceService
 
         [Required]
         public string DevicePlatformName { get; set; }
+
+        [Timestamp]
+        public byte[] Timestamp { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace LoginService.Models
         public long UserId { get; set; }
 
         [Required]
-        public long GroupId { get; set; }
+        public int GroupId { get; set; }
 
         [Required]
         public string LogIn { get; set; }

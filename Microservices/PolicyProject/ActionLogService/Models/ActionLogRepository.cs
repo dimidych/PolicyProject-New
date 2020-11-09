@@ -79,9 +79,16 @@ namespace ActionLogService.Models
 
         public async Task<ActionLog> AddActionLog(ActionLog newActionLog)
         {
-            if (newActionLog == null)
+            if (newActionLog == null || string.IsNullOrEmpty(newActionLog.Message))
                 throw new ArgumentException("Событие не задано");
 
+            if (newActionLog.EventActionId < 1)
+                throw new ArgumentException("Не указан тип события");
+
+            if (string.IsNullOrEmpty(newActionLog.Login))
+                throw new ArgumentException("Не указан инициатор события");
+
+            newActionLog.ActionLogDate = DateTime.Now;
             newActionLog.ActionLogId = _dbContext.ActionLogs.Any()
                 ? await _dbContext.ActionLogs.MaxAsync(x => x.ActionLogId) + 1
                 : 1;
