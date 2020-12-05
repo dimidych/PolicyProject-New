@@ -1,12 +1,12 @@
-﻿using DevelopmentLogger;
+﻿using BaseDbContext;
+using DevicePlatformEntity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace PolicyService.Models
 {
-    public class PolicyDbContext : DbContext
+    public class PolicyDbContext : BaseDatabaseContext, IPolicyDbContext
     {
-        public PolicyDbContext(DbContextOptions<PolicyDbContext> dbContextOptions) : base(dbContextOptions)
+        public PolicyDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions, "PolicyDb")
         {
         }
 
@@ -14,20 +14,15 @@ namespace PolicyService.Models
 
         public DbSet<Policy> Policies { get; set; }
 
-        public static readonly ILoggerFactory MyDevelopmentLoggerFactory
-            = LoggerFactory.Create(builder => builder
-                .AddFilter((category, level) => category == DbLoggerCategory.Database.Command.Name
-                                                && level == LogLevel.Information)
-                .AddProvider(new CustomDevelopmentLoggerProvider("PolicyDb.log")));
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public static void InitDbContext(ModelBuilder modelBuilder)
         {
-            optionsBuilder.UseLoggerFactory(MyDevelopmentLoggerFactory);
+            DevicePlatformDbContext.InitDbContext(modelBuilder);
+            modelBuilder.Entity<Policy>().HasOne(x => x.Platform);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Policy>().HasOne(x => x.Platform);
+            InitDbContext(modelBuilder);
         }
     }
 }

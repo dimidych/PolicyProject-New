@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DeviceService.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,8 +11,9 @@ namespace DeviceService.Migrations
                 name: "DevicePlatforms",
                 columns: table => new
                 {
-                    DevicePlatformId = table.Column<short>(nullable: false),
-                    DevicePlatformName = table.Column<string>(nullable: false)
+                    DevicePlatformId = table.Column<short>(type: "smallint", nullable: false),
+                    DevicePlatformName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -23,13 +24,13 @@ namespace DeviceService.Migrations
                 name: "Devices",
                 columns: table => new
                 {
-                    DeviceId = table.Column<long>(nullable: false),
-                    DeviceName = table.Column<string>(nullable: false),
-                    DeviceSerialNumber = table.Column<string>(nullable: false),
-                    DeviceMacAddress = table.Column<string>(nullable: false),
-                    DeviceIpAddress = table.Column<string>(nullable: false),
-                    DevicePlatformId = table.Column<short>(nullable: false),
-                    Timestamp = table.Column<byte[]>(rowVersion: true, nullable: true)
+                    DeviceId = table.Column<long>(type: "bigint", nullable: false),
+                    DeviceName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DeviceSerialNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DeviceMacAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DeviceIpAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DevicePlatformId = table.Column<short>(type: "smallint", nullable: false),
+                    Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
                 },
                 constraints: table =>
                 {

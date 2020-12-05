@@ -8,9 +8,9 @@ namespace ActionLogService.Models
 {
     public class ActionLogRepository : IActionLogRepository
     {
-        private readonly ActionLogDbContext _dbContext;
+        private readonly IActionLogDbContext _dbContext;
 
-        public ActionLogRepository(ActionLogDbContext dbContext)
+        public ActionLogRepository(IActionLogDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -44,7 +44,7 @@ namespace ActionLogService.Models
                 ? await _dbContext.EventActions.MaxAsync(x => x.EventId) + 1
                 : 1;
             var result = await _dbContext.EventActions.AddAsync(newEventAction);
-            await _dbContext.SaveChangesAsync();
+            await (_dbContext as DbContext).SaveChangesAsync();
             return result.Entity;
         }
 
@@ -93,7 +93,7 @@ namespace ActionLogService.Models
                 ? await _dbContext.ActionLogs.MaxAsync(x => x.ActionLogId) + 1
                 : 1;
             var result = await _dbContext.ActionLogs.AddAsync(newActionLog);
-            await _dbContext.SaveChangesAsync();
+            await (_dbContext as DbContext).SaveChangesAsync();
             return result.Entity;
         }
     }

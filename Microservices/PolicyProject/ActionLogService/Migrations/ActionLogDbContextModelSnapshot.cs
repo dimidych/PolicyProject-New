@@ -15,9 +15,9 @@ namespace ActionLogService.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.9")
+                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "5.0.0");
 
             modelBuilder.Entity("ActionLogService.Models.ActionLog", b =>
                 {
@@ -245,6 +245,8 @@ namespace ActionLogService.Migrations
                         .HasForeignKey("EventActionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Action");
                 });
 #pragma warning restore 612, 618
         }

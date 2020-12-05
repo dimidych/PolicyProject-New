@@ -14,9 +14,9 @@ namespace ActionLogService.Controllers
     public class ActionLogApiController : ControllerBase
     {
         private readonly IActionLogRepository _actionLogRepository;
-        private readonly ILogger _logger;
+        private readonly ILogger<ActionLogApiController> _logger;
 
-        public ActionLogApiController(IActionLogRepository repository, ILogger logger)
+        public ActionLogApiController(IActionLogRepository repository, ILogger<ActionLogApiController> logger)
         {
             _actionLogRepository = repository;
             _logger = logger;
@@ -99,10 +99,10 @@ namespace ActionLogService.Controllers
         [ProducesResponseType(typeof(IEnumerable<ActionLog>), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         [ProducesResponseType((int) HttpStatusCode.NotFound)]
-        public async Task<ActionResult<IEnumerable<ActionLog>>> GetActionLog([FromBody] DateTime fromDate,
-            [FromBody] DateTime? toDate,
-            [FromBody] string action, [FromBody] string login, [FromBody] string deviceSerialNumber,
-            [FromBody] long? documentId, [FromBody] string messageFilter)
+        public async Task<ActionResult<IEnumerable<ActionLog>>> GetActionLog([FromRoute] DateTime fromDate,
+            [FromRoute] DateTime? toDate,
+            [FromRoute] string action, [FromRoute] string login, [FromRoute] string deviceSerialNumber,
+            [FromRoute] long? documentId, [FromRoute] string messageFilter)
         {
             try
             {

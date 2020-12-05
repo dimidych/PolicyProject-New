@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using GroupService;
 using LoginService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using UserService.Models;
 
 namespace LoginService.Controllers
 {
@@ -13,11 +15,16 @@ namespace LoginService.Controllers
     [Route("api/v1/[controller]")]
     public class LoginApiController : ControllerBase
     {
+        private readonly IGroupRepository _groupRepository;
+        private readonly IUserRepository _userRepository;
         private readonly ILoginRepository _loginRepository;
-        private readonly ILogger _logger;
+        private readonly ILogger<LoginApiController> _logger;
 
-        public LoginApiController(ILoginRepository loginRepository, ILogger logger)
+        public LoginApiController(IGroupRepository groupRepository, IUserRepository userRepository,
+            ILoginRepository loginRepository, ILogger<LoginApiController> logger)
         {
+            _groupRepository = groupRepository;
+            _userRepository = userRepository;
             _loginRepository = loginRepository;
             _logger = logger;
         }
@@ -31,7 +38,7 @@ namespace LoginService.Controllers
         {
             try
             {
-                var result = await _loginRepository.GetGroup();
+                var result = await _groupRepository.GetGroup();
 
                 if (result != null && result.Any())
                     return Ok(result);
@@ -55,7 +62,7 @@ namespace LoginService.Controllers
         {
             try
             {
-                var result = await _loginRepository.GetGroup(groupId);
+                var result = await _groupRepository.GetGroup(groupId);
 
                 if (result != null && result.Any())
                     return Ok(result.FirstOrDefault());
@@ -79,7 +86,7 @@ namespace LoginService.Controllers
         {
             try
             {
-                var result = await _loginRepository.GetUser();
+                var result = await _userRepository.GetUser();
 
                 if (result != null && result.Any())
                     return Ok(result);
@@ -103,7 +110,7 @@ namespace LoginService.Controllers
         {
             try
             {
-                var result = await _loginRepository.GetUser(userId);
+                var result = await _userRepository.GetUser(userId);
 
                 if (result != null && result.Any())
                     return Ok(result.FirstOrDefault());

@@ -11,9 +11,9 @@ namespace PolicyService.Migrations
                 name: "DevicePlatforms",
                 columns: table => new
                 {
-                    DevicePlatformId = table.Column<short>(nullable: false),
-                    DevicePlatformName = table.Column<string>(nullable: false),
-                    Timestamp = table.Column<byte[]>(rowVersion: true, nullable: true)
+                    DevicePlatformId = table.Column<short>(type: "smallint", nullable: false),
+                    DevicePlatformName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -24,12 +24,12 @@ namespace PolicyService.Migrations
                 name: "Policies",
                 columns: table => new
                 {
-                    PolicyId = table.Column<int>(nullable: false),
-                    PolicyName = table.Column<string>(nullable: false),
-                    PlatformId = table.Column<short>(nullable: false),
-                    PolicyInstruction = table.Column<string>(nullable: false),
-                    PolicyDefaultParam = table.Column<string>(nullable: true),
-                    Timestamp = table.Column<byte[]>(rowVersion: true, nullable: true)
+                    PolicyId = table.Column<int>(type: "int", nullable: false),
+                    PolicyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PlatformId = table.Column<short>(type: "smallint", nullable: false),
+                    PolicyInstruction = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PolicyDefaultParam = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -40,6 +40,17 @@ namespace PolicyService.Migrations
                         principalTable: "DevicePlatforms",
                         principalColumn: "DevicePlatformId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "DevicePlatforms",
+                columns: new[] { "DevicePlatformId", "DevicePlatformName" },
+                values: new object[,]
+                {
+                    { (short)1, "Android" },
+                    { (short)2, "IOS" },
+                    { (short)3, "Windows" },
+                    { (short)4, "Linux" }
                 });
 
             migrationBuilder.CreateIndex(

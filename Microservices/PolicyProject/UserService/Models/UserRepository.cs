@@ -8,9 +8,9 @@ namespace UserService.Models
 {
     public class UserRepository : IUserRepository
     {
-        private readonly UserDbContext _dbContext;
+        private readonly IUserDbContext _dbContext;
 
-        public UserRepository(UserDbContext dbContext)
+        public UserRepository(IUserDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -44,7 +44,7 @@ namespace UserService.Models
                 ? await _dbContext.Users.AsNoTracking().MaxAsync(x => x.UserId) + 1
                 : 1;
             var result = await _dbContext.Users.AddAsync(newUser);
-            await _dbContext.SaveChangesAsync();
+            await (_dbContext as DbContext).SaveChangesAsync();
             return result.Entity;
         }
 
@@ -63,7 +63,7 @@ namespace UserService.Models
             existedUser.UserFirstName = user.UserFirstName;
             existedUser.UserLastName = user.UserLastName;
             existedUser.UserMiddleName = user.UserMiddleName;
-            var updated = await _dbContext.SaveChangesAsync();
+            var updated = await (_dbContext as DbContext).SaveChangesAsync();
             return updated > 0;
         }
 
@@ -76,7 +76,7 @@ namespace UserService.Models
                 throw new Exception("Пользователь не найден");
 
             _dbContext.Users.Remove(existedUser);
-            var deleted = await _dbContext.SaveChangesAsync();
+            var deleted = await (_dbContext as DbContext).SaveChangesAsync();
             return deleted > 0;
         }
     }

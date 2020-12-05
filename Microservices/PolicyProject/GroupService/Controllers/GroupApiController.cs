@@ -13,9 +13,9 @@ namespace GroupService.Controllers
     public class GroupApiController : ControllerBase
     {
         private readonly IGroupRepository _groupRepository;
-        private readonly ILogger _logger;
+        private readonly ILogger<GroupApiController> _logger;
 
-        public GroupApiController(IGroupRepository groupRepository, ILogger logger)
+        public GroupApiController(IGroupRepository groupRepository, ILogger<GroupApiController> logger)
         {
             _groupRepository = groupRepository;
             _logger = logger;

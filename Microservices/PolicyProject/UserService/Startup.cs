@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using UserService.Models;
 
 namespace UserService
@@ -23,16 +24,24 @@ namespace UserService
         public void ConfigureServices(IServiceCollection services)
         {
             var userDbConnStr = Configuration.GetConnectionString("UserDbConnection");
-            services.AddDbContext<UserDbContext>(options => options.UseSqlServer(userDbConnStr,
+            services.AddDbContext<IUserDbContext, UserDbContext>(options => options.UseSqlServer(userDbConnStr,
                 sqlOptions =>
                 {
-                    sqlOptions.
-                        EnableRetryOnFailure(maxRetryCount: 5,
-                            maxRetryDelay: TimeSpan.FromSeconds(30),
-                            errorNumbersToAdd: null);
+                    sqlOptions.EnableRetryOnFailure(maxRetryCount: 5,
+                        maxRetryDelay: TimeSpan.FromSeconds(30),
+                        errorNumbersToAdd: null);
                 }));
             services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
             services.AddControllers();
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "StoredDates HTTP API",
+                    Version = "v1",
+                    Description = "StoredDates"
+                });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
@@ -41,6 +50,10 @@ namespace UserService
             {
                 loggerFactory.AddProvider(new CustomDevelopmentLoggerProvider("UserService.log"));
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger().UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "StoredDates API V1");
+                });
             }
 
             app.UseHttpsRedirection();
@@ -49,10 +62,7 @@ namespace UserService
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }

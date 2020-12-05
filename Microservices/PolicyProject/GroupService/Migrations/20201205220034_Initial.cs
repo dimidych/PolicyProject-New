@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GroupService.Migrations
 {
@@ -10,9 +11,9 @@ namespace GroupService.Migrations
                 name: "Groups",
                 columns: table => new
                 {
-                    GroupId = table.Column<int>(nullable: false),
-                    GroupName = table.Column<string>(nullable: false),
-                    Timestamp = table.Column<byte[]>(rowVersion: true, nullable: true)
+                    GroupId = table.Column<int>(type: "int", nullable: false),
+                    GroupName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
                 },
                 constraints: table =>
                 {

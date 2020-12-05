@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using DevicePlatformEntity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -13,24 +14,28 @@ namespace DeviceService.Controllers
     public class DeviceApiController : ControllerBase
     {
         private readonly IDeviceRepository _deviceRepository;
-        private readonly ILogger _logger;
+        private readonly IDevicePlatformRepository _devicePlatformRepository;
+        private readonly ILogger<DeviceApiController> _logger;
 
-        public DeviceApiController(IDeviceRepository deviceRepository, ILogger logger)
+        public DeviceApiController(IDevicePlatformRepository devicePlatformRepository,
+            IDeviceRepository deviceRepository,
+            ILogger<DeviceApiController> logger)
         {
+            _devicePlatformRepository = devicePlatformRepository;
             _deviceRepository = deviceRepository;
             _logger = logger;
         }
 
         [HttpGet]
         [Route("GetDevicePlatforms")]
-        [ProducesResponseType(typeof(IEnumerable<DevicePlatform>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(IEnumerable<DevicePlatform>), (int) HttpStatusCode.OK)]
+        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int) HttpStatusCode.NotFound)]
         public async Task<ActionResult<IEnumerable<DevicePlatform>>> GetDevicePlatforms()
         {
             try
             {
-                var result = await _deviceRepository.GetDevicePlatform();
+                var result = await _devicePlatformRepository.GetDevicePlatform();
 
                 if (result != null && result.Any())
                     return Ok(result);
@@ -47,9 +52,9 @@ namespace DeviceService.Controllers
 
         [HttpGet]
         [Route("GetDevicePlatform/{devicePlatformId}")]
-        [ProducesResponseType(typeof(DevicePlatform), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(DevicePlatform), (int) HttpStatusCode.OK)]
+        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int) HttpStatusCode.NotFound)]
         public async Task<ActionResult<DevicePlatform>> GetDevicePlatform([FromRoute] int devicePlatformId)
         {
             try
@@ -143,20 +148,20 @@ namespace DeviceService.Controllers
 
         [HttpPost]
         [Route("AddDevicePlatform")]
-        [ProducesResponseType(typeof(DevicePlatform), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(DevicePlatform), (int) HttpStatusCode.OK)]
+        [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
+        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<ActionResult<DevicePlatform>> AddDevicePlatform([FromBody] DevicePlatform newDevicePlatform)
         {
             try
             {
-                var result = await _deviceRepository.AddDevicePlatform(newDevicePlatform);
+                var result = await _devicePlatformRepository.AddDevicePlatform(newDevicePlatform);
 
                 if (result != null)
                     return Ok(result);
 
                 _logger.Log(LogLevel.Warning, $"Couldn't add device platform {newDevicePlatform.DevicePlatformName}");
-                return StatusCode((int)HttpStatusCode.InternalServerError);
+                return StatusCode((int) HttpStatusCode.InternalServerError);
             }
             catch (Exception ex)
             {

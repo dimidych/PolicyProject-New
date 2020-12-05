@@ -17,8 +17,16 @@ namespace DevelopmentLogger
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception,
             Func<TState, Exception, string> formatter)
         {
-            new Task(() => File.AppendAllText(_fileName,
-                $"{DateTime.Now} - {logLevel} - {formatter(state, exception)}{Environment.NewLine}")).Start();
+            new Task(() =>
+            {
+                var locker = new object();
+
+                lock (locker)
+                {
+                    File.AppendAllText(_fileName,
+                        $"{DateTime.Now} - {logLevel} - {formatter(state, exception)}{Environment.NewLine}");
+                }
+            }).Start();
         }
 
         public bool IsEnabled(LogLevel logLevel)

@@ -15,47 +15,11 @@ namespace DeviceService.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.9")
+                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "5.0.0");
 
-            modelBuilder.Entity("DeviceService.Device", b =>
-                {
-                    b.Property<long>("DeviceId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("DeviceIpAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DeviceMacAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DeviceName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<short>("DevicePlatformId")
-                        .HasColumnType("smallint");
-
-                    b.Property<string>("DeviceSerialNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("Timestamp")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
-                    b.HasKey("DeviceId");
-
-                    b.HasIndex("DevicePlatformId");
-
-                    b.ToTable("Devices");
-                });
-
-            modelBuilder.Entity("DeviceService.DevicePlatform", b =>
+            modelBuilder.Entity("DevicePlatformEntity.DevicePlatform", b =>
                 {
                     b.Property<short>("DevicePlatformId")
                         .HasColumnType("smallint");
@@ -98,11 +62,49 @@ namespace DeviceService.Migrations
 
             modelBuilder.Entity("DeviceService.Device", b =>
                 {
-                    b.HasOne("DeviceService.DevicePlatform", "DevicePlatform")
+                    b.Property<long>("DeviceId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("DeviceIpAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DeviceMacAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DeviceName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<short>("DevicePlatformId")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("DeviceSerialNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("DeviceId");
+
+                    b.HasIndex("DevicePlatformId");
+
+                    b.ToTable("Devices");
+                });
+
+            modelBuilder.Entity("DeviceService.Device", b =>
+                {
+                    b.HasOne("DevicePlatformEntity.DevicePlatform", "DevicePlatform")
                         .WithMany()
                         .HasForeignKey("DevicePlatformId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("DevicePlatform");
                 });
 #pragma warning restore 612, 618
         }

@@ -8,31 +8,11 @@ namespace DeviceService
 {
     public class DeviceRepository : IDeviceRepository
     {
-        private readonly DeviceDbContext _dbContext;
+        private readonly IDeviceDbContext _dbContext;
 
-        public DeviceRepository(DeviceDbContext dbContext)
+        public DeviceRepository(IDeviceDbContext dbContext)
         {
             _dbContext = dbContext;
-        }
-
-        public async Task<DevicePlatform> AddDevicePlatform(DevicePlatform newDevicePlatform)
-        {
-            if (newDevicePlatform == null || string.IsNullOrEmpty(newDevicePlatform.DevicePlatformName))
-                throw new ArgumentException("Платформа не задана");
-
-            var existed = await _dbContext.DevicePlatforms.AsNoTracking().FirstOrDefaultAsync(x =>
-                x.DevicePlatformName.Equals(newDevicePlatform.DevicePlatformName,
-                    StringComparison.InvariantCultureIgnoreCase));
-
-            if (existed != null)
-                throw new Exception($"Платформа {newDevicePlatform.DevicePlatformName} уже существует");
-
-            newDevicePlatform.DevicePlatformId = (short) (_dbContext.DevicePlatforms.Any()
-                ? await _dbContext.DevicePlatforms.MaxAsync(x => x.DevicePlatformId) + 1
-                : 1);
-            var result = await _dbContext.DevicePlatforms.AddAsync(newDevicePlatform);
-            await _dbContext.SaveChangesAsync();
-            return result.Entity;
         }
 
         public async Task<IEnumerable<Device>> GetDevice(long? deviceId = null)
@@ -43,19 +23,6 @@ namespace DeviceService
                 result = await _dbContext.Devices.AsNoTracking().ToListAsync();
             else
                 result.Add(await _dbContext.Devices.AsNoTracking().FirstOrDefaultAsync(x => x.DeviceId == deviceId));
-
-            return result;
-        }
-
-        public async Task<IEnumerable<DevicePlatform>> GetDevicePlatform(short? devicePlatformId = null)
-        {
-            var result = new List<DevicePlatform>();
-
-            if (devicePlatformId == null)
-                result = await _dbContext.DevicePlatforms.AsNoTracking().ToListAsync();
-            else
-                result.Add(await _dbContext.DevicePlatforms.AsNoTracking()
-                    .FirstOrDefaultAsync(x => x.DevicePlatformId == devicePlatformId));
 
             return result;
         }
@@ -88,7 +55,7 @@ namespace DeviceService
                 ? await _dbContext.Devices.MaxAsync(x => x.DeviceId) + 1
                 : 1;
             var result = await _dbContext.Devices.AddAsync(newDevice);
-            await _dbContext.SaveChangesAsync();
+            await (_dbContext as DbContext).SaveChangesAsync();
             return result.Entity;
         }
 
@@ -121,7 +88,7 @@ namespace DeviceService
             existedDevice.DeviceIpAddress = device.DeviceIpAddress;
             existedDevice.DeviceMacAddress = device.DeviceMacAddress;
             existedDevice.DevicePlatformId = device.DevicePlatformId;
-            var updated = await _dbContext.SaveChangesAsync();
+            var updated = await (_dbContext as DbContext).SaveChangesAsync();
             return updated > 0;
         }
 
@@ -133,7 +100,7 @@ namespace DeviceService
                 throw new Exception($"Устройство c id {deviceId} не существует");
 
             _dbContext.Devices.Remove(existedDevice);
-            var deleted = await _dbContext.SaveChangesAsync();
+            var deleted = await (_dbContext as DbContext).SaveChangesAsync();
             return deleted > 0;
         }
     }

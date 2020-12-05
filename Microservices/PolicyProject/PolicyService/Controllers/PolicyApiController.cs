@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using DevicePlatformEntity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PolicyService.Models;
@@ -13,11 +14,14 @@ namespace PolicyService.Controllers
     [Route("api/v1/[controller]")]
     public class PolicyApiController : ControllerBase
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<PolicyApiController> _logger;
         private readonly IPolicyRepository _policyRepository;
+        private readonly IDevicePlatformRepository _devicePlatformRepository;
 
-        public PolicyApiController(IPolicyRepository policyRepository, ILogger logger)
+        public PolicyApiController(IPolicyRepository policyRepository,
+            IDevicePlatformRepository devicePlatformRepository, ILogger<PolicyApiController> logger)
         {
+            _devicePlatformRepository = devicePlatformRepository;
             _policyRepository = policyRepository;
             _logger = logger;
         }
@@ -79,7 +83,7 @@ namespace PolicyService.Controllers
         {
             try
             {
-                var result = await _policyRepository.GetDevicePlatform();
+                var result = await _devicePlatformRepository.GetDevicePlatform();
 
                 if (result != null && result.Any())
                     return Ok(result);
@@ -104,7 +108,7 @@ namespace PolicyService.Controllers
         {
             try
             {
-                var result = await _policyRepository.GetDevicePlatform(devicePlatformId);
+                var result = await _devicePlatformRepository.GetDevicePlatform(devicePlatformId);
 
                 if (result != null && result.Any())
                     return Ok(result.FirstOrDefault());

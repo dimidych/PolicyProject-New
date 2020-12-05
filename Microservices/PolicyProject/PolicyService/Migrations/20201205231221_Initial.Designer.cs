@@ -10,18 +10,18 @@ using PolicyService.Models;
 namespace PolicyService.Migrations
 {
     [DbContext(typeof(PolicyDbContext))]
-    [Migration("20201109210830_Initial")]
+    [Migration("20201205231221_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.9")
+                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "5.0.0");
 
-            modelBuilder.Entity("PolicyService.Models.DevicePlatform", b =>
+            modelBuilder.Entity("DevicePlatformEntity.DevicePlatform", b =>
                 {
                     b.Property<short>("DevicePlatformId")
                         .HasColumnType("smallint");
@@ -38,9 +38,31 @@ namespace PolicyService.Migrations
                     b.HasKey("DevicePlatformId");
 
                     b.ToTable("DevicePlatforms");
+
+                    b.HasData(
+                        new
+                        {
+                            DevicePlatformId = (short)1,
+                            DevicePlatformName = "Android"
+                        },
+                        new
+                        {
+                            DevicePlatformId = (short)2,
+                            DevicePlatformName = "IOS"
+                        },
+                        new
+                        {
+                            DevicePlatformId = (short)3,
+                            DevicePlatformName = "Windows"
+                        },
+                        new
+                        {
+                            DevicePlatformId = (short)4,
+                            DevicePlatformName = "Linux"
+                        });
                 });
 
-            modelBuilder.Entity("PolicyService.Models.Policy", b =>
+            modelBuilder.Entity("PolicyService.Policy", b =>
                 {
                     b.Property<int>("PolicyId")
                         .HasColumnType("int");
@@ -71,13 +93,15 @@ namespace PolicyService.Migrations
                     b.ToTable("Policies");
                 });
 
-            modelBuilder.Entity("PolicyService.Models.Policy", b =>
+            modelBuilder.Entity("PolicyService.Policy", b =>
                 {
-                    b.HasOne("PolicyService.Models.DevicePlatform", "Platform")
+                    b.HasOne("DevicePlatformEntity.DevicePlatform", "Platform")
                         .WithMany()
                         .HasForeignKey("PlatformId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Platform");
                 });
 #pragma warning restore 612, 618
         }

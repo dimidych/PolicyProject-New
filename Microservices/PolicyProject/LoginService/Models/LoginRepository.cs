@@ -8,35 +8,11 @@ namespace LoginService.Models
 {
     public class LoginRepository : ILoginRepository
     {
-        private readonly LoginDbContext _dbContext;
+        private readonly ILoginDbContext _dbContext;
 
-        public LoginRepository(LoginDbContext dbContext)
+        public LoginRepository(ILoginDbContext dbContext)
         {
             _dbContext = dbContext;
-        }
-
-        public async Task<IEnumerable<Group>> GetGroup(int? groupId = null)
-        {
-            var result = new List<Group>();
-
-            if (groupId == null)
-                result = await _dbContext.Groups.AsNoTracking().ToListAsync();
-            else
-                result.Add(await _dbContext.Groups.AsNoTracking().FirstOrDefaultAsync(x => x.GroupId == groupId));
-
-            return result;
-        }
-
-        public async Task<IEnumerable<User>> GetUser(long? userId = null)
-        {
-            var result = new List<User>();
-
-            if (userId == null)
-                result = await _dbContext.Users.AsNoTracking().ToListAsync();
-            else
-                result.Add(await _dbContext.Users.AsNoTracking().FirstOrDefaultAsync(x => x.UserId == userId));
-
-            return result;
         }
 
         public async Task<IEnumerable<Login>> GetLogin(string login = null)
@@ -86,7 +62,7 @@ namespace LoginService.Models
             newLogin.LoginId = _dbContext.Logins.Any() ? await _dbContext.Logins.MaxAsync(x => x.LoginId) + 1 : 1;
             newLogin.Certificate = CertificateWorker.CreateCertificate();
             var result = await _dbContext.Logins.AddAsync(newLogin);
-            await _dbContext.SaveChangesAsync();
+            await (_dbContext as DbContext).SaveChangesAsync();
             return result.Entity;
         }
 
@@ -98,7 +74,7 @@ namespace LoginService.Models
             if (string.IsNullOrEmpty(login.Password))
                 throw new ArgumentException("Пароль не задан");
 
-            if (login.UserId<1)
+            if (login.UserId < 1)
                 throw new ArgumentException("Пользователь не задан");
 
             if (login.GroupId < 1)
@@ -115,7 +91,7 @@ namespace LoginService.Models
             existed.Password = login.Password;
             existed.GroupId = login.GroupId;
             existed.UserId = login.UserId;
-            var updated = await _dbContext.SaveChangesAsync();
+            var updated = await (_dbContext as DbContext).SaveChangesAsync();
             return updated > 0;
         }
 
@@ -127,7 +103,7 @@ namespace LoginService.Models
                 throw new Exception($"Логин c id {loginId} не существует");
 
             _dbContext.Logins.Remove(existedLogin);
-            var deleted = await _dbContext.SaveChangesAsync();
+            var deleted = await (_dbContext as DbContext).SaveChangesAsync();
             return deleted > 0;
         }
     }

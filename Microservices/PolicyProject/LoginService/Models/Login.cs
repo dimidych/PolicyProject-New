@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using GroupService;
+using UserService.Models;
 
 namespace LoginService.Models
 {

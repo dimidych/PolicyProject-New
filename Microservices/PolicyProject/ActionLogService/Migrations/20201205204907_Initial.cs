@@ -11,9 +11,9 @@ namespace ActionLogService.Migrations
                 name: "EventActions",
                 columns: table => new
                 {
-                    EventId = table.Column<int>(nullable: false),
-                    EventName = table.Column<string>(nullable: false),
-                    Timestamp = table.Column<byte[]>(rowVersion: true, nullable: true)
+                    EventId = table.Column<int>(type: "int", nullable: false),
+                    EventName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -24,14 +24,14 @@ namespace ActionLogService.Migrations
                 name: "ActionLogs",
                 columns: table => new
                 {
-                    ActionLogId = table.Column<long>(nullable: false),
-                    ActionLogDate = table.Column<DateTime>(nullable: false),
-                    EventActionId = table.Column<int>(nullable: false),
-                    DocumentId = table.Column<long>(nullable: true),
-                    Message = table.Column<string>(nullable: false),
-                    DeviceSerialNumber = table.Column<string>(nullable: false),
-                    Login = table.Column<string>(nullable: false),
-                    Timestamp = table.Column<byte[]>(rowVersion: true, nullable: true)
+                    ActionLogId = table.Column<long>(type: "bigint", nullable: false),
+                    ActionLogDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EventActionId = table.Column<int>(type: "int", nullable: false),
+                    DocumentId = table.Column<long>(type: "bigint", nullable: true),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DeviceSerialNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Login = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Timestamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
                 },
                 constraints: table =>
                 {

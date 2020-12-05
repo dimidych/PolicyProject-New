@@ -10,18 +10,18 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LoginService.Migrations
 {
     [DbContext(typeof(LoginDbContext))]
-    [Migration("20201109213226_Initial")]
+    [Migration("20201205223650_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.9")
+                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "5.0.0");
 
-            modelBuilder.Entity("LoginService.Models.Group", b =>
+            modelBuilder.Entity("GroupService.Group", b =>
                 {
                     b.Property<int>("GroupId")
                         .HasColumnType("int");
@@ -43,7 +43,7 @@ namespace LoginService.Migrations
                         new
                         {
                             GroupId = 1,
-                            GroupName = "Admin"
+                            GroupName = "Админ"
                         });
                 });
 
@@ -85,7 +85,7 @@ namespace LoginService.Migrations
                         new
                         {
                             LoginId = 1L,
-                            Certificate = "BwIAAACkAABSU0EyAAQAAAEAAQD7UC1a+XSlxZZEOAJBXoCsNzTHC4BbE7yCBQGSdaThAI1tEBOlkorPC3BR5znSghSYoEi5ObTTAk7P4FBwMYwZR/dFpyZPAH0jpRK387oCH1fmvZX9QQhtTjX8Pxp797h67UW+FoxhpZsXk6AHJ5uKVSPiQ5aFpxrLLjOsLZgjmRmilI2rvBndG6u4jGCAkIK6aJcgkAI82jXBu5/tL5/8LMgeJP4k7Kkwq9GxOQ9TVyxLQ3BfsbkxiXpvC9Ns4sAz9tVrdG1wFFjgN46RjxaY2z5v0EVGFK4kDETKmOmphVTDphJp0PKg6dL3am8JvUXO3rjhYiR/+EU1d9GkxD/LMb3v9pJuoYkLTmYilkcWTbwZOoHBuKOMRlI+ULiphoaAoYJL7BtyK9BdR+jmdUl8PDWWYRK9r9XWw6v+7Sqftis/6bSDomSRYa6tLaRXRuigc4BddGNmiDkDfqyNuEM8dOyr775Qiw6QLH15HqZ9GqCv6FQR3JWrgn/9x5KeZHUuGDmRBmfKuEyOWNQzrjDX9ww+cNBNhKLu8vhkYTIW2ioCouzJi7h97b/jXX4avR4p0vVWMp6q47DaqTyT+yaZca1u0vmm1sazN6j9yw8UbKd6KFevrMkUfSyHpOu1D2jvFsreo9tdLYzhs731bWDVA0Vlk4l1pTtSqTjv+NjY13Wd50rr/V1VDcrR8lZ52dVebNnYSh/FHicOzxVMM7WKxIFQedxqdH95EjRNMk4Vn3Souk5pgVWXhmzy6cdfbAQ=",
+                            Certificate = "BwIAAACkAABSU0EyAAQAAAEAAQDRswwNdIPlkefrwLI43ZLI1RsQtyaIZtiBuhKDqsALTFaZh92DFqdkRgXDl9uPgKD6ryF+T6zt5FwgLn3KjeMxp9q3Kx3MJBBQWvpTjlCyu9mF9Z+JSL5qUBaALXwrfz7N6cKCR9BDwcRfE0EdjPr9jmQxSIvVOQurJqODCBEPyEduGppARQacpvT2+eQf7FaUkdBMabsw6S1wmmFmR1Tc/tHcYI+oEvLa/BOiOZL6aJt4ToGAWdX6C/3PkMeHsM8nYVvE812WVqcHpThJJuvLt6RV/KSq3GJlFR3OmWMyz5AKawPoaC3Tb8XFT3lSw9T2QQb8Iw5urybC1jypJJj2CzZ7vPOU1Zy42J3ibRC6+Xq89yto5zHuNxoD9XfhToIdfOIL05FKccBmNJEWCnRutiwaiWX/jc92V+ccB/97Fhc/3uZltBt0C9aJph4TT7h6WpAl1JWBT4mhI492pp602LZE8Nkd7XlgmNPNCYZwfO5/n58Fw5RJ9K8LdSsDgkVUqKb4yy44bdKZrQRxhF5m06PjlyC6qBU79Rs9hFqbx79+QbxeEf16VG99kqWi4M2qhySuvB1BQu4UDgBcofFNZTJMDe+o8W3B6N4i8D7h+4xZG1yDx4e8q9KyOTlRdq8QfulSDrt3EaEnBrKMeUXdSXC1yI6GjqfTayhsSv4K/Fc5xxE3UQtGQe7Vsw0gjgzkwwmSrqX8LnbMyKNMTwyV8RWWaEg0HGVwsOtys7KEn0pdxv4metkuswMyEwmKnhg=",
                             GroupId = 1,
                             LogIn = "Admin",
                             Password = "827ccb0eea8a706c4c34a16891f84e7b",
@@ -93,12 +93,25 @@ namespace LoginService.Migrations
                         });
                 });
 
-            modelBuilder.Entity("LoginService.Models.User", b =>
+            modelBuilder.Entity("UserService.Models.User", b =>
                 {
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("UserName")
+                    b.Property<byte[]>("Timestamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<string>("UserFirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserLastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserMiddleName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId");
@@ -109,23 +122,28 @@ namespace LoginService.Migrations
                         new
                         {
                             UserId = 1L,
-                            UserName = "Admin"
+                            UserFirstName = "Admin",
+                            UserLastName = "Admin"
                         });
                 });
 
             modelBuilder.Entity("LoginService.Models.Login", b =>
                 {
-                    b.HasOne("LoginService.Models.Group", "Group")
+                    b.HasOne("GroupService.Group", "Group")
                         .WithMany()
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LoginService.Models.User", "User")
+                    b.HasOne("UserService.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Group");
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

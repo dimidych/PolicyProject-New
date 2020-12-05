@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PolicyService.Models
+namespace DevicePlatformEntity
 {
     public class DevicePlatform
     {

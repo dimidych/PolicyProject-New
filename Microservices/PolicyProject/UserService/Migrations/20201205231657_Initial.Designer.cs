@@ -10,16 +10,16 @@ using UserService.Models;
 namespace UserService.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20201021195116_initial")]
-    partial class initial
+    [Migration("20201205231657_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.9")
+                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "5.0.0");
 
             modelBuilder.Entity("UserService.Models.User", b =>
                 {
@@ -45,6 +45,14 @@ namespace UserService.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1L,
+                            UserFirstName = "Admin",
+                            UserLastName = "Admin"
+                        });
                 });
 #pragma warning restore 612, 618
         }

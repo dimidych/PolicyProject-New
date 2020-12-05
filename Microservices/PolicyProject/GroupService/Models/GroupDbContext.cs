@@ -1,30 +1,25 @@
-﻿using DevelopmentLogger;
+﻿using BaseDbContext;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace GroupService
 {
-    public class GroupDbContext : DbContext
+    public class GroupDbContext : BaseDatabaseContext, IGroupDbContext
     {
-        public GroupDbContext(DbContextOptions<GroupDbContext> contextOptions) : base(contextOptions)
-        {}
+        public GroupDbContext(DbContextOptions contextOptions) : base(
+            contextOptions, "GroupDb")
+        {
+        }
 
         public DbSet<Group> Groups { get; set; }
 
-        public static readonly ILoggerFactory MyDevelopmentLoggerFactory
-            = LoggerFactory.Create(builder => builder
-                .AddFilter((category, level) => category == DbLoggerCategory.Database.Command.Name
-                                                && level == LogLevel.Information)
-                .AddProvider(new CustomDevelopmentLoggerProvider("GroupDb.log")));
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public static void InitDbContext(ModelBuilder modelBuilder)
         {
-            optionsBuilder.UseLoggerFactory(MyDevelopmentLoggerFactory);
+            modelBuilder.Entity<Group>().HasData(new Group { GroupId = 1, GroupName = "Админ" });
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Group>().HasData(new Group {GroupId = 1, GroupName = "Админ"});
+            InitDbContext(modelBuilder);
         }
     }
 }

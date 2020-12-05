@@ -2,30 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DevicePlatformEntity;
 using Microsoft.EntityFrameworkCore;
 
 namespace PolicyService.Models
 {
     public class PolicyRepository : IPolicyRepository
     {
-        private readonly PolicyDbContext _dbContext;
+        private readonly IPolicyDbContext _dbContext;
 
-        public PolicyRepository(PolicyDbContext dbContext)
+        public PolicyRepository(IPolicyDbContext dbContext)
         {
             _dbContext = dbContext;
-        }
-
-        public async Task<IEnumerable<DevicePlatform>> GetDevicePlatform(short? devicePlatformId = null)
-        {
-            var result = new List<DevicePlatform>();
-
-            if (devicePlatformId == null)
-                result = await _dbContext.DevicePlatforms.AsNoTracking().ToListAsync();
-            else
-                result.Add(await _dbContext.DevicePlatforms.AsNoTracking()
-                    .FirstOrDefaultAsync(x => x.DevicePlatformId == devicePlatformId));
-
-            return result;
         }
 
         public async Task<IEnumerable<Policy>> GetPolicy(long? policyId = null)
@@ -61,7 +49,7 @@ namespace PolicyService.Models
             newPolicy.PolicyId =
                 _dbContext.Policies.Any() ? await _dbContext.Policies.MaxAsync(x => x.PolicyId) + 1 : 1;
             var result = await _dbContext.Policies.AddAsync(newPolicy);
-            await _dbContext.SaveChangesAsync();
+            await (_dbContext as DbContext).SaveChangesAsync();
             return result.Entity;
         }
 
@@ -86,7 +74,7 @@ namespace PolicyService.Models
             existed.PlatformId = policy.PlatformId;
             existed.PolicyInstruction = policy.PolicyInstruction;
             existed.PolicyDefaultParam = policy.PolicyDefaultParam;
-            var updated = await _dbContext.SaveChangesAsync();
+            var updated = await (_dbContext as DbContext).SaveChangesAsync();
             return updated > 0;
         }
 
@@ -98,7 +86,7 @@ namespace PolicyService.Models
                 throw new Exception($"Политика c id {policyId} не существует");
 
             _dbContext.Policies.Remove(existedLogin);
-            var deleted = await _dbContext.SaveChangesAsync();
+            var deleted = await (_dbContext as DbContext).SaveChangesAsync();
             return deleted > 0;
         }
     }

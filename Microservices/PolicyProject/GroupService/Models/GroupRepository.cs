@@ -8,9 +8,9 @@ namespace GroupService
 {
     public class GroupRepository : IGroupRepository
     {
-        private readonly GroupDbContext _dbContext;
+        private readonly IGroupDbContext _dbContext;
 
-        public GroupRepository(GroupDbContext dbContext)
+        public GroupRepository(IGroupDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -43,7 +43,7 @@ namespace GroupService
                 ? await _dbContext.Groups.AsNoTracking().MaxAsync(x => x.GroupId) + 1
                 : 1;
             var result = await _dbContext.Groups.AddAsync(newGroup);
-            await _dbContext.SaveChangesAsync();
+            await (_dbContext as DbContext).SaveChangesAsync();
             return result.Entity;
         }
 
@@ -59,7 +59,7 @@ namespace GroupService
                 throw new Exception("Группа не найдена");
 
             existedGroup.GroupName = group.GroupName;
-            var updated = await _dbContext.SaveChangesAsync();
+            var updated = await (_dbContext as DbContext).SaveChangesAsync();
             return updated > 0;
         }
 
@@ -72,7 +72,7 @@ namespace GroupService
                 throw new Exception("Группа не найдена");
 
             _dbContext.Groups.Remove(existedGroup);
-            var deleted = await _dbContext.SaveChangesAsync();
+            var deleted = await (_dbContext as DbContext).SaveChangesAsync();
             return deleted > 0;
         }
     }

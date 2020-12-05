@@ -1,31 +1,24 @@
-﻿using DevelopmentLogger;
+﻿using BaseDbContext;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace UserService.Models
 {
-    public class UserDbContext : DbContext
+    public class UserDbContext : BaseDatabaseContext, IUserDbContext
     {
-        public UserDbContext(DbContextOptions<UserDbContext> contextOptions) : base(contextOptions)
+        public UserDbContext(DbContextOptions contextOptions) : base(contextOptions, "UserDb")
         {
         }
 
         public DbSet<User> Users { get; set; }
 
-        public static readonly ILoggerFactory MyDevelopmentLoggerFactory
-            = LoggerFactory.Create(builder => builder
-                .AddFilter((category, level) => category == DbLoggerCategory.Database.Command.Name
-                                                && level == LogLevel.Information)
-                .AddProvider(new CustomDevelopmentLoggerProvider("UserDb.log")));
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public static void InitDbContext(ModelBuilder modelBuilder)
         {
-            optionsBuilder.UseLoggerFactory(MyDevelopmentLoggerFactory);
+            modelBuilder.Entity<User>().HasData(new User {UserId = 1, UserLastName = "Admin", UserFirstName = "Admin"});
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasData(new User {UserId = 1, UserLastName = "Admin", UserFirstName = "Admin"});
+            InitDbContext(modelBuilder);
         }
     }
 }
