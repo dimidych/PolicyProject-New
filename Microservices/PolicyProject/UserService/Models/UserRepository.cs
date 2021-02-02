@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,7 +14,7 @@ namespace UserService.Models
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<User>> GetUser(long? userId = null)
+        public async Task<IEnumerable<User>> GetUser(Guid? userId = null)
         {
             var result = new List<User>();
 
@@ -40,9 +39,7 @@ namespace UserService.Models
             if (existedUser != null)
                 throw new Exception("Пользователь уже существует");
 
-            newUser.UserId = _dbContext.Users.AsNoTracking().Any()
-                ? await _dbContext.Users.AsNoTracking().MaxAsync(x => x.UserId) + 1
-                : 1;
+            newUser.UserId = Guid.NewGuid();
             var result = await _dbContext.Users.AddAsync(newUser);
             await (_dbContext as DbContext).SaveChangesAsync();
             return result.Entity;
@@ -67,7 +64,7 @@ namespace UserService.Models
             return updated > 0;
         }
 
-        public async Task<bool> DeleteUser(long userId)
+        public async Task<bool> DeleteUser(Guid userId)
         {
             var existedUser = await _dbContext.Users.FirstOrDefaultAsync(x =>
                 x.UserId == userId);

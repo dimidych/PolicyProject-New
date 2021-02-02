@@ -24,9 +24,6 @@ namespace UserService.Controllers
 
         [HttpGet]
         [Route("GetUsers")]
-        [ProducesResponseType(typeof(IEnumerable<User>), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int) HttpStatusCode.NotFound)]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             try
@@ -47,11 +44,8 @@ namespace UserService.Controllers
         }
 
         [HttpGet]
-        [Route("GetUser/{userId}")]
-        [ProducesResponseType(typeof(User), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int) HttpStatusCode.NotFound)]
-        public async Task<ActionResult<User>> GetUser([FromRoute] int userId)
+        [Route("GetUser?{userId}")]
+        public async Task<ActionResult<User>> GetUser([FromRoute] Guid userId)
         {
             try
             {
@@ -72,9 +66,6 @@ namespace UserService.Controllers
 
         [HttpPost]
         [Route("AddUser")]
-        [ProducesResponseType(typeof(User), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<ActionResult<User>> AddUser([FromBody] User newUser)
         {
             try
@@ -96,9 +87,6 @@ namespace UserService.Controllers
 
         [HttpPut]
         [Route("UpdateUser")]
-        [ProducesResponseType(typeof(User), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<ActionResult<User>> UpdateUser([FromBody] User user)
         {
             try
@@ -120,10 +108,7 @@ namespace UserService.Controllers
 
         [HttpDelete]
         [Route("DeleteUser")]
-        [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> DeleteUser([FromRoute] int userId)
+        public async Task<IActionResult> DeleteUser([FromRoute] Guid userId)
         {
             try
             {

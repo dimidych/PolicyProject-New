@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using DevicePlatformEntity;
 
@@ -8,7 +9,7 @@ namespace PolicyService
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int PolicyId { get; set; }
+        public Guid PolicyId { get; set; }
 
         [Required]
         public string PolicyName { get; set; }

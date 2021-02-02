@@ -8,13 +8,13 @@ namespace ActionLogService.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public long ActionLogId { get; set; }
+        public Guid ActionLogId { get; set; }
 
         [Required] public DateTime ActionLogDate { get; set; }
 
         [Required] public int EventActionId { get; set; }
 
-        public long? DocumentId { get; set; }
+        public Guid? DocumentId { get; set; }
 
         [Required] public string Message { get; set; }
 

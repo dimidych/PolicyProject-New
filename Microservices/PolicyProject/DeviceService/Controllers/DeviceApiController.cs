@@ -28,9 +28,6 @@ namespace DeviceService.Controllers
 
         [HttpGet]
         [Route("GetDevicePlatforms")]
-        [ProducesResponseType(typeof(IEnumerable<DevicePlatform>), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int) HttpStatusCode.NotFound)]
         public async Task<ActionResult<IEnumerable<DevicePlatform>>> GetDevicePlatforms()
         {
             try
@@ -51,15 +48,12 @@ namespace DeviceService.Controllers
         }
 
         [HttpGet]
-        [Route("GetDevicePlatform/{devicePlatformId}")]
-        [ProducesResponseType(typeof(DevicePlatform), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int) HttpStatusCode.NotFound)]
-        public async Task<ActionResult<DevicePlatform>> GetDevicePlatform([FromRoute] int devicePlatformId)
+        [Route("GetDevicePlatform?{devicePlatformId}")]
+        public async Task<ActionResult<DevicePlatform>> GetDevicePlatform([FromRoute] short devicePlatformId)
         {
             try
             {
-                var result = await _deviceRepository.GetDevice(devicePlatformId);
+                var result = await _devicePlatformRepository.GetDevicePlatform(devicePlatformId);
 
                 if (result != null && result.Any())
                     return Ok(result.FirstOrDefault());
@@ -76,9 +70,6 @@ namespace DeviceService.Controllers
 
         [HttpGet]
         [Route("GetDevices")]
-        [ProducesResponseType(typeof(IEnumerable<Device>), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int) HttpStatusCode.NotFound)]
         public async Task<ActionResult<IEnumerable<Device>>> GetDevices()
         {
             try
@@ -99,11 +90,8 @@ namespace DeviceService.Controllers
         }
 
         [HttpGet]
-        [Route("GetDevice/{deviceId}")]
-        [ProducesResponseType(typeof(Device), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int) HttpStatusCode.NotFound)]
-        public async Task<ActionResult<Device>> GetDevice([FromRoute] int deviceId)
+        [Route("GetDevice?{deviceId}")]
+        public async Task<ActionResult<Device>> GetDevice([FromRoute] Guid deviceId)
         {
             try
             {
@@ -124,9 +112,6 @@ namespace DeviceService.Controllers
 
         [HttpPost]
         [Route("AddDevice")]
-        [ProducesResponseType(typeof(Device), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<ActionResult<Device>> AddDevice([FromBody] Device newDevice)
         {
             try
@@ -148,9 +133,6 @@ namespace DeviceService.Controllers
 
         [HttpPost]
         [Route("AddDevicePlatform")]
-        [ProducesResponseType(typeof(DevicePlatform), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<ActionResult<DevicePlatform>> AddDevicePlatform([FromBody] DevicePlatform newDevicePlatform)
         {
             try
@@ -172,9 +154,6 @@ namespace DeviceService.Controllers
 
         [HttpPut]
         [Route("UpdateDevice")]
-        [ProducesResponseType(typeof(Device), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<ActionResult<Device>> UpdateDevice([FromBody] Device device)
         {
             try
@@ -196,10 +175,7 @@ namespace DeviceService.Controllers
 
         [HttpDelete]
         [Route("DeleteDevice")]
-        [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> DeleteDevice([FromRoute] int deviceId)
+        public async Task<IActionResult> DeleteDevice([FromRoute] Guid deviceId)
         {
             try
             {

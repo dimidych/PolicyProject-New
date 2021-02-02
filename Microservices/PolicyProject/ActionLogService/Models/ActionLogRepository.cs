@@ -49,7 +49,7 @@ namespace ActionLogService.Models
         }
 
         public async Task<IEnumerable<ActionLog>> GetActionLog(DateTime fromDate, DateTime? toDate, string actionName,
-            string login, string deviceSerialNumber, long? documentId, string messageFilter)
+            string login, string deviceSerialNumber, Guid? documentId, string messageFilter)
         {
             var finalDate = (toDate ?? DateTime.Now).AddDays(1);
             var tempQuery = _dbContext.ActionLogs.AsNoTracking()
@@ -89,9 +89,7 @@ namespace ActionLogService.Models
                 throw new ArgumentException("Не указан инициатор события");
 
             newActionLog.ActionLogDate = DateTime.Now;
-            newActionLog.ActionLogId = _dbContext.ActionLogs.Any()
-                ? await _dbContext.ActionLogs.MaxAsync(x => x.ActionLogId) + 1
-                : 1;
+            newActionLog.ActionLogId = Guid.NewGuid();
             var result = await _dbContext.ActionLogs.AddAsync(newActionLog);
             await (_dbContext as DbContext).SaveChangesAsync();
             return result.Entity;

@@ -1,4 +1,5 @@
 ﻿using BaseDbContext;
+using InitialConstantsStore;
 using Microsoft.EntityFrameworkCore;
 
 namespace UserService.Models
@@ -13,7 +14,12 @@ namespace UserService.Models
 
         public static void InitDbContext(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasData(new User {UserId = 1, UserLastName = "Admin", UserFirstName = "Admin"});
+            modelBuilder.Entity<User>().HasData(new User
+            {
+                UserId = ConstStore.AdminUserIdGuid,
+                UserLastName = ConstStore.AdminLogIn,
+                UserFirstName = ConstStore.AdminLogIn
+            });
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

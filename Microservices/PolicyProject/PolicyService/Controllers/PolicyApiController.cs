@@ -28,9 +28,6 @@ namespace PolicyService.Controllers
 
         [HttpGet]
         [Route("GetPolicies")]
-        [ProducesResponseType(typeof(IEnumerable<Policy>), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int) HttpStatusCode.NotFound)]
         public async Task<ActionResult<IEnumerable<Policy>>> GetPolicies()
         {
             try
@@ -51,11 +48,8 @@ namespace PolicyService.Controllers
         }
 
         [HttpGet]
-        [Route("GetPolicy/{policyId}")]
-        [ProducesResponseType(typeof(Policy), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int) HttpStatusCode.NotFound)]
-        public async Task<ActionResult<IEnumerable<Policy>>> GetPolicy([FromRoute] long policyId)
+        [Route("GetPolicy?{policyId}")]
+        public async Task<ActionResult<IEnumerable<Policy>>> GetPolicy([FromRoute] Guid policyId)
         {
             try
             {
@@ -76,9 +70,6 @@ namespace PolicyService.Controllers
 
         [HttpGet]
         [Route("GetDevicePlatforms")]
-        [ProducesResponseType(typeof(IEnumerable<DevicePlatform>), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int) HttpStatusCode.NotFound)]
         public async Task<ActionResult<IEnumerable<DevicePlatform>>> GetDevicePlatforms()
         {
             try
@@ -99,10 +90,7 @@ namespace PolicyService.Controllers
         }
 
         [HttpGet]
-        [Route("GetDevicePlatform")]
-        [ProducesResponseType(typeof(DevicePlatform), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int) HttpStatusCode.NotFound)]
+        [Route("GetDevicePlatform?{devicePlatformId}")]
         public async Task<ActionResult<IEnumerable<DevicePlatform>>> GetDevicePlatform(
             [FromRoute] short devicePlatformId)
         {
@@ -125,9 +113,6 @@ namespace PolicyService.Controllers
 
         [HttpPost]
         [Route("AddPolicy")]
-        [ProducesResponseType(typeof(Policy), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<ActionResult<Policy>> AddPolicy([FromBody] Policy newPolicy)
         {
             try
@@ -149,9 +134,6 @@ namespace PolicyService.Controllers
 
         [HttpPut]
         [Route("UpdatePolicy")]
-        [ProducesResponseType(typeof(Policy), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<ActionResult<Policy>> UpdatePolicy([FromBody] Policy policy)
         {
             try
@@ -173,10 +155,7 @@ namespace PolicyService.Controllers
 
         [HttpDelete]
         [Route("DeletePolicy")]
-        [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> DeletePolicy([FromRoute] int policyId)
+        public async Task<IActionResult> DeletePolicy([FromRoute] Guid policyId)
         {
             try
             {

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UserService.Models
@@ -7,7 +8,7 @@ namespace UserService.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public long UserId { get; set; }
+        public Guid UserId { get; set; }
 
         [Required]
         public string UserLastName { get; set; }

@@ -1,5 +1,6 @@
 ﻿using BaseDbContext;
 using GroupService;
+using InitialConstantsStore;
 using Microsoft.EntityFrameworkCore;
 using UserService.Models;
 
@@ -25,12 +26,12 @@ namespace LoginService.Models
             modelBuilder.Entity<Login>().HasOne(x => x.Group);
             modelBuilder.Entity<Login>().HasData(new Login
             {
-                LoginId = 1,
-                GroupId = 1,
-                UserId = 1,
-                LogIn = "Admin",
+                LoginId = ConstStore.AdminLoginIdGuid,
+                GroupId = ConstStore.AdminGroupIdGuid,
+                UserId = ConstStore.AdminUserIdGuid,
+                LogIn = ConstStore.AdminLogIn,
                 Certificate = CertificateWorker.CreateCertificate(),
-                Password = Hasher.Hash("12345")
+                Password = Hasher.Hash(ConstStore.AdminSecure)
             });
         }
 

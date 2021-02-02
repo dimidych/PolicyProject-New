@@ -23,9 +23,6 @@ namespace GroupService.Controllers
 
         [HttpGet]
         [Route("GetGroups")]
-        [ProducesResponseType(typeof(IEnumerable<Group>), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int) HttpStatusCode.NotFound)]
         public async Task<ActionResult<IEnumerable<Group>>> GetGroups()
         {
             try
@@ -46,11 +43,8 @@ namespace GroupService.Controllers
         }
 
         [HttpGet]
-        [Route("GetGroup/{groupId}")]
-        [ProducesResponseType(typeof(Group), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int) HttpStatusCode.NotFound)]
-        public async Task<ActionResult<Group>> GetGroup([FromRoute] int groupId)
+        [Route("GetGroup?{groupId}")]
+        public async Task<ActionResult<Group>> GetGroup([FromRoute] Guid groupId)
         {
             try
             {
@@ -71,9 +65,6 @@ namespace GroupService.Controllers
 
         [HttpPost]
         [Route("AddGroup")]
-        [ProducesResponseType(typeof(Group), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<ActionResult<Group>> AddGroup([FromBody] Group newGroup)
         {
             try
@@ -95,9 +86,6 @@ namespace GroupService.Controllers
 
         [HttpPut]
         [Route("UpdateGroup")]
-        [ProducesResponseType(typeof(Group), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<ActionResult<Group>> UpdateGroup([FromBody] Group group)
         {
             try
@@ -119,10 +107,7 @@ namespace GroupService.Controllers
 
         [HttpDelete]
         [Route("DeleteGroup")]
-        [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> DeleteGroup([FromRoute] int groupId)
+        public async Task<IActionResult> DeleteGroup([FromRoute] Guid groupId)
         {
             try
             {

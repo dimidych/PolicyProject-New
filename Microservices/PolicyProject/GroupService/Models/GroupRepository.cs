@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,7 +14,7 @@ namespace GroupService
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<Group>> GetGroup(int? groupId = null)
+        public async Task<IEnumerable<Group>> GetGroup(Guid? groupId = null)
         {
             var result = new List<Group>();
 
@@ -39,9 +38,7 @@ namespace GroupService
             if (existedGroup != null)
                 throw new Exception("Группа уже существует");
 
-            newGroup.GroupId = _dbContext.Groups.AsNoTracking().Any()
-                ? await _dbContext.Groups.AsNoTracking().MaxAsync(x => x.GroupId) + 1
-                : 1;
+            newGroup.GroupId = Guid.NewGuid();
             var result = await _dbContext.Groups.AddAsync(newGroup);
             await (_dbContext as DbContext).SaveChangesAsync();
             return result.Entity;
@@ -63,7 +60,7 @@ namespace GroupService
             return updated > 0;
         }
 
-        public async Task<bool> DeleteGroup(int groupId)
+        public async Task<bool> DeleteGroup(Guid groupId)
         {
             var existedGroup = await _dbContext.Groups.FirstOrDefaultAsync(x =>
                 x.GroupId == groupId);

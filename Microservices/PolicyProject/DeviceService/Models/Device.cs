@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using DevicePlatformEntity;
 
@@ -8,7 +9,7 @@ namespace DeviceService
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public long DeviceId { get; set; }
+        public Guid DeviceId { get; set; }
         
         [Required]
         public string DeviceName { get; set; }

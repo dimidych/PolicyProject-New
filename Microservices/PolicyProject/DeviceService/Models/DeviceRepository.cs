@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,7 +14,7 @@ namespace DeviceService
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<Device>> GetDevice(long? deviceId = null)
+        public async Task<IEnumerable<Device>> GetDevice(Guid? deviceId = null)
         {
             var result = new List<Device>();
 
@@ -51,9 +50,7 @@ namespace DeviceService
             if (existedDevice != null)
                 throw new Exception($"Устройство {newDevice.DeviceName} уже существует");
 
-            newDevice.DeviceId = _dbContext.Devices.Any()
-                ? await _dbContext.Devices.MaxAsync(x => x.DeviceId) + 1
-                : 1;
+            newDevice.DeviceId = Guid.NewGuid();
             var result = await _dbContext.Devices.AddAsync(newDevice);
             await (_dbContext as DbContext).SaveChangesAsync();
             return result.Entity;
@@ -92,7 +89,7 @@ namespace DeviceService
             return updated > 0;
         }
 
-        public async Task<bool> DeleteDevice(int deviceId)
+        public async Task<bool> DeleteDevice(Guid deviceId)
         {
             var existedDevice = await _dbContext.Devices.FirstOrDefaultAsync(x => x.DeviceId == deviceId);
 

@@ -1,9 +1,8 @@
-using System;
 using ActionLogService.Models;
+using BaseDbContext;
 using DevelopmentLogger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -14,6 +13,8 @@ namespace ActionLogService
 {
     public class Startup
     {
+        private const string ServiceName = "ActionLog";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -23,24 +24,18 @@ namespace ActionLogService
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var userDbConnStr = Configuration.GetConnectionString("ActionLogDbConnection");
+            var actionLogDbConnStr = Configuration.GetConnectionString($"{ServiceName}DbConnection");
             services.AddDbContext<IActionLogDbContext, ActionLogDbContext>(options =>
-                options.UseSqlServer(userDbConnStr,
-                    sqlOptions =>
-                    {
-                        sqlOptions.EnableRetryOnFailure(maxRetryCount: 5,
-                            maxRetryDelay: TimeSpan.FromSeconds(30),
-                            errorNumbersToAdd: null);
-                    }));
+                BaseDbContextOptions.CreateDbContextOptionsAction(options, actionLogDbConnStr));
             services.AddScoped(typeof(IActionLogRepository), typeof(ActionLogRepository));
             services.AddControllers();
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "StoredDates HTTP API",
+                    Title = $"{ServiceName} HTTP API",
                     Version = "v1",
-                    Description = "StoredDates"
+                    Description = ServiceName
                 });
             });
         }
@@ -49,11 +44,11 @@ namespace ActionLogService
         {
             if (env.IsDevelopment())
             {
-                loggerFactory.AddProvider(new CustomDevelopmentLoggerProvider("ActionLogService.log"));
+                loggerFactory.AddProvider(new CustomDevelopmentLoggerProvider($"{ServiceName}Service.log"));
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger().UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "StoredDates API V1");
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{ServiceName} API V1");
                 });
             }
 

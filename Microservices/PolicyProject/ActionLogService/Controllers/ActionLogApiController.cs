@@ -24,9 +24,6 @@ namespace ActionLogService.Controllers
 
         [HttpGet]
         [Route("GetEventActions")]
-        [ProducesResponseType(typeof(IEnumerable<EventAction>), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int) HttpStatusCode.NotFound)]
         public async Task<ActionResult<IEnumerable<EventAction>>> GetEventActions()
         {
             try
@@ -47,10 +44,7 @@ namespace ActionLogService.Controllers
         }
 
         [HttpGet]
-        [Route("GetEventAction")]
-        [ProducesResponseType(typeof(EventAction), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int) HttpStatusCode.NotFound)]
+        [Route("GetEventAction?{eventActionId}")]
         public async Task<ActionResult<EventAction>> GetEventAction([FromRoute] int eventActionId)
         {
             try
@@ -72,9 +66,6 @@ namespace ActionLogService.Controllers
 
         [HttpPost]
         [Route("AddEventAction")]
-        [ProducesResponseType(typeof(EventAction), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<ActionResult<EventAction>> AddEventAction([FromBody] EventAction newEventAction)
         {
             try
@@ -96,13 +87,10 @@ namespace ActionLogService.Controllers
 
         [HttpGet]
         [Route("GetActionLog")]
-        [ProducesResponseType(typeof(IEnumerable<ActionLog>), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int) HttpStatusCode.NotFound)]
         public async Task<ActionResult<IEnumerable<ActionLog>>> GetActionLog([FromRoute] DateTime fromDate,
             [FromRoute] DateTime? toDate,
             [FromRoute] string action, [FromRoute] string login, [FromRoute] string deviceSerialNumber,
-            [FromRoute] long? documentId, [FromRoute] string messageFilter)
+            [FromRoute] Guid? documentId, [FromRoute] string messageFilter)
         {
             try
             {
@@ -124,9 +112,6 @@ namespace ActionLogService.Controllers
 
         [HttpPost]
         [Route("AddActionLog")]
-        [ProducesResponseType(typeof(ActionLog), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<ActionResult<ActionLog>> AddActionLog([FromBody] ActionLog newActionLog)
         {
             try

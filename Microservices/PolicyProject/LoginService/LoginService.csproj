@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DevelopmentLogger\DevelopmentLogger.csproj" />
     <ProjectReference Include="..\GroupService\GroupService.csproj" />
+    <ProjectReference Include="..\InitialConstantsStore\InitialConstantsStore.csproj" />
     <ProjectReference Include="..\UserService\UserService.csproj" />
   </ItemGroup>
 

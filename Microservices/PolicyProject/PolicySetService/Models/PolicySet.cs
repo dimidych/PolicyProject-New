@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using GroupService;
 using LoginService.Models;
@@ -10,14 +11,14 @@ namespace PolicySetService.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public long PolicySetId { get; set; }
+        public Guid PolicySetId { get; set; }
 
         [Required]
-        public int PolicyId { get; set; }
+        public Guid PolicyId { get; set; }
 
-        public long? LoginId { get; set; }
+        public Guid? LoginId { get; set; }
 
-        public int? GroupId { get; set; }
+        public Guid? GroupId { get; set; }
 
         public bool? Selected { get; set; }
 

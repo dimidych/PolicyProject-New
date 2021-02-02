@@ -1,4 +1,5 @@
 ﻿using BaseDbContext;
+using InitialConstantsStore;
 using Microsoft.EntityFrameworkCore;
 
 namespace GroupService
@@ -14,7 +15,11 @@ namespace GroupService
 
         public static void InitDbContext(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Group>().HasData(new Group { GroupId = 1, GroupName = "Админ" });
+            modelBuilder.Entity<Group>().HasData(new Group
+            {
+                GroupId = ConstStore.AdminGroupIdGuid,
+                GroupName = ConstStore.AdminLogIn
+            });
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

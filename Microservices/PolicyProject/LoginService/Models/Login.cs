@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using GroupService;
 using UserService.Models;
@@ -9,13 +10,13 @@ namespace LoginService.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public long LoginId { get; set; }
+        public Guid LoginId { get; set; }
 
         [Required]
-        public long UserId { get; set; }
+        public Guid UserId { get; set; }
 
         [Required]
-        public int GroupId { get; set; }
+        public Guid GroupId { get; set; }
 
         [Required]
         public string LogIn { get; set; }

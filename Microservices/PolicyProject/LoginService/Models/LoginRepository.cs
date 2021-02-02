@@ -28,7 +28,7 @@ namespace LoginService.Models
             return result;
         }
 
-        public async Task<string[]> GetCertificate(long loginId)
+        public async Task<string[]> GetCertificate(Guid loginId)
         {
             var login = await _dbContext.Logins.AsNoTracking().FirstOrDefaultAsync(x => x.LoginId == loginId);
 
@@ -47,11 +47,11 @@ namespace LoginService.Models
             if (string.IsNullOrEmpty(newLogin.Password))
                 throw new ArgumentException("Пароль не задан");
 
-            if (newLogin.UserId < 1)
+            if (newLogin.UserId == Guid.Empty)
                 throw new ArgumentException("Пользователь не задан");
 
-            if (newLogin.GroupId < 1)
-                throw new ArgumentException("Группа не задан");
+            if (newLogin.GroupId == Guid.Empty)
+                throw new ArgumentException("Группа не заданa");
 
             var existed = await _dbContext.Logins.AsNoTracking().FirstOrDefaultAsync(x =>
                 x.LogIn.Equals(newLogin.LogIn, StringComparison.InvariantCultureIgnoreCase));
@@ -59,7 +59,7 @@ namespace LoginService.Models
             if (existed != null)
                 throw new Exception($"Логин {newLogin.LogIn} уже существует");
 
-            newLogin.LoginId = _dbContext.Logins.Any() ? await _dbContext.Logins.MaxAsync(x => x.LoginId) + 1 : 1;
+            newLogin.LoginId = Guid.NewGuid();
             newLogin.Certificate = CertificateWorker.CreateCertificate();
             var result = await _dbContext.Logins.AddAsync(newLogin);
             await (_dbContext as DbContext).SaveChangesAsync();
@@ -74,11 +74,11 @@ namespace LoginService.Models
             if (string.IsNullOrEmpty(login.Password))
                 throw new ArgumentException("Пароль не задан");
 
-            if (login.UserId < 1)
+            if (login.UserId == Guid.Empty)
                 throw new ArgumentException("Пользователь не задан");
 
-            if (login.GroupId < 1)
-                throw new ArgumentException("Группа не задан");
+            if (login.GroupId == Guid.Empty)
+                throw new ArgumentException("Группа не задана");
 
             var existed = await _dbContext.Logins.FirstOrDefaultAsync(x =>
                 x.LogIn.Equals(login.LogIn, StringComparison.InvariantCultureIgnoreCase));
@@ -95,7 +95,7 @@ namespace LoginService.Models
             return updated > 0;
         }
 
-        public async Task<bool> DeleteLogin(long loginId)
+        public async Task<bool> DeleteLogin(Guid loginId)
         {
             var existedLogin = await _dbContext.Logins.FirstOrDefaultAsync(x => x.LoginId == loginId);
 

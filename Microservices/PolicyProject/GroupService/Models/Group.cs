@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GroupService
@@ -7,7 +8,7 @@ namespace GroupService
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int GroupId { get; set; }
+        public Guid GroupId { get; set; }
 
         [Required]
         public string GroupName { get; set; }

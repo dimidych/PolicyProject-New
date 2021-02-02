@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevicePlatformEntity", "Dev
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseDbContext", "BaseDbContext\BaseDbContext.csproj", "{849CA2C6-54C9-446E-8E57-4E84D18C1053}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InitialConstantsStore", "InitialConstantsStore\InitialConstantsStore.csproj", "{50C15CF2-A384-494F-BDCD-F5ADED24D65C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{849CA2C6-54C9-446E-8E57-4E84D18C1053}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{849CA2C6-54C9-446E-8E57-4E84D18C1053}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{849CA2C6-54C9-446E-8E57-4E84D18C1053}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50C15CF2-A384-494F-BDCD-F5ADED24D65C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50C15CF2-A384-494F-BDCD-F5ADED24D65C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50C15CF2-A384-494F-BDCD-F5ADED24D65C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50C15CF2-A384-494F-BDCD-F5ADED24D65C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

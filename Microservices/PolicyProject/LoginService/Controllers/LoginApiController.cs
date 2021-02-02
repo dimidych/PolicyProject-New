@@ -31,9 +31,6 @@ namespace LoginService.Controllers
 
         [HttpGet]
         [Route("GetGroups")]
-        [ProducesResponseType(typeof(IEnumerable<Group>), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int) HttpStatusCode.NotFound)]
         public async Task<ActionResult<IEnumerable<Group>>> GetGroups()
         {
             try
@@ -54,11 +51,8 @@ namespace LoginService.Controllers
         }
 
         [HttpGet]
-        [Route("GetGroup/{groupId}")]
-        [ProducesResponseType(typeof(Group), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int) HttpStatusCode.NotFound)]
-        public async Task<ActionResult<Group>> GetGroup([FromRoute] int groupId)
+        [Route("GetGroup?{groupId}")]
+        public async Task<ActionResult<Group>> GetGroup([FromRoute] Guid groupId)
         {
             try
             {
@@ -79,9 +73,6 @@ namespace LoginService.Controllers
 
         [HttpGet]
         [Route("GetUsers")]
-        [ProducesResponseType(typeof(IEnumerable<User>), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int) HttpStatusCode.NotFound)]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             try
@@ -102,11 +93,8 @@ namespace LoginService.Controllers
         }
 
         [HttpGet]
-        [Route("GetUser/{userId}")]
-        [ProducesResponseType(typeof(User), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int) HttpStatusCode.NotFound)]
-        public async Task<ActionResult<User>> GetUser([FromRoute] int userId)
+        [Route("GetUser?{userId}")]
+        public async Task<ActionResult<User>> GetUser([FromRoute] Guid userId)
         {
             try
             {
@@ -127,9 +115,6 @@ namespace LoginService.Controllers
 
         [HttpGet]
         [Route("GetLogins")]
-        [ProducesResponseType(typeof(IEnumerable<Login>), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int) HttpStatusCode.NotFound)]
         public async Task<ActionResult<IEnumerable<Login>>> GetLogins()
         {
             try
@@ -150,10 +135,7 @@ namespace LoginService.Controllers
         }
 
         [HttpGet]
-        [Route("GetLogin/{login}")]
-        [ProducesResponseType(typeof(Login), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType((int) HttpStatusCode.NotFound)]
+        [Route("GetLogin?{login}")]
         public async Task<ActionResult<Login>> GetLogin([FromRoute] string login)
         {
             try
@@ -175,9 +157,6 @@ namespace LoginService.Controllers
 
         [HttpPost]
         [Route("AddLogin")]
-        [ProducesResponseType(typeof(Login), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<ActionResult<Login>> AddLogin([FromBody] Login newLogin)
         {
             try
@@ -199,9 +178,6 @@ namespace LoginService.Controllers
 
         [HttpPut]
         [Route("UpdateLogin")]
-        [ProducesResponseType(typeof(Login), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<ActionResult<Login>> UpdateLogin([FromBody] Login login)
         {
             try
@@ -223,10 +199,7 @@ namespace LoginService.Controllers
 
         [HttpDelete]
         [Route("DeleteLogin")]
-        [ProducesResponseType(typeof(void), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> DeleteLogin([FromRoute] int loginId)
+        public async Task<IActionResult> DeleteLogin([FromRoute] Guid loginId)
         {
             try
             {

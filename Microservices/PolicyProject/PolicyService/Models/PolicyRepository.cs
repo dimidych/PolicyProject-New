@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using DevicePlatformEntity;
 using Microsoft.EntityFrameworkCore;
 
 namespace PolicyService.Models
@@ -16,7 +14,7 @@ namespace PolicyService.Models
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<Policy>> GetPolicy(long? policyId = null)
+        public async Task<IEnumerable<Policy>> GetPolicy(Guid? policyId = null)
         {
             var result = new List<Policy>();
 
@@ -46,8 +44,7 @@ namespace PolicyService.Models
             if (existed != null)
                 throw new Exception($"Политика {newPolicy.PolicyName} уже существует");
 
-            newPolicy.PolicyId =
-                _dbContext.Policies.Any() ? await _dbContext.Policies.MaxAsync(x => x.PolicyId) + 1 : 1;
+            newPolicy.PolicyId = Guid.NewGuid();
             var result = await _dbContext.Policies.AddAsync(newPolicy);
             await (_dbContext as DbContext).SaveChangesAsync();
             return result.Entity;
@@ -78,7 +75,7 @@ namespace PolicyService.Models
             return updated > 0;
         }
 
-        public async Task<bool> DeletePolicy(long policyId)
+        public async Task<bool> DeletePolicy(Guid policyId)
         {
             var existedLogin = await _dbContext.Policies.FirstOrDefaultAsync(x => x.PolicyId == policyId);
 
