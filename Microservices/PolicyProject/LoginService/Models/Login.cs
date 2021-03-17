@@ -25,9 +25,11 @@ namespace LoginService.Models
         
         public string Certificate { get; set; }
 
-        public virtual User User { get; set; }
+        [NotMapped]
+        public virtual User LoginUser { get; set; }
 
-        public virtual Group Group { get; set; }
+        [NotMapped]
+        public virtual Group LoginGroup { get; set; }
 
         [Timestamp]
         public byte[] Timestamp { get; set; }

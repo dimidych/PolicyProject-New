@@ -23,7 +23,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DevicePlatformEntity", "Dev
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseDbContext", "BaseDbContext\BaseDbContext.csproj", "{849CA2C6-54C9-446E-8E57-4E84D18C1053}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InitialConstantsStore", "InitialConstantsStore\InitialConstantsStore.csproj", "{50C15CF2-A384-494F-BDCD-F5ADED24D65C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InitialConstantsStore", "InitialConstantsStore\InitialConstantsStore.csproj", "{50C15CF2-A384-494F-BDCD-F5ADED24D65C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoginDevicesService", "LoginDevicesService\LoginDevicesService.csproj", "{B6624AFF-04D4-4E4A-8F2D-E2DD00A4D078}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RabbitMqEventBus", "RabbitMqEventBus\RabbitMqEventBus.csproj", "{FEFF8CBE-3CAA-444C-B2A2-745F8D3C2CB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +79,14 @@ Global
 		{50C15CF2-A384-494F-BDCD-F5ADED24D65C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50C15CF2-A384-494F-BDCD-F5ADED24D65C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50C15CF2-A384-494F-BDCD-F5ADED24D65C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6624AFF-04D4-4E4A-8F2D-E2DD00A4D078}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6624AFF-04D4-4E4A-8F2D-E2DD00A4D078}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6624AFF-04D4-4E4A-8F2D-E2DD00A4D078}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6624AFF-04D4-4E4A-8F2D-E2DD00A4D078}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEFF8CBE-3CAA-444C-B2A2-745F8D3C2CB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEFF8CBE-3CAA-444C-B2A2-745F8D3C2CB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEFF8CBE-3CAA-444C-B2A2-745F8D3C2CB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEFF8CBE-3CAA-444C-B2A2-745F8D3C2CB6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

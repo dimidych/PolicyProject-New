@@ -217,5 +217,26 @@ namespace LoginService.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("GetCertificate")]
+        public async Task<ActionResult<string[]>> GetCertificate([FromRoute] Guid loginId)
+        {
+            try
+            {
+                var result = await _loginRepository.GetCertificate(loginId);
+
+                if (result != null && result.Any())
+                    return Ok(result);
+
+                _logger.Log(LogLevel.Warning, $"Couldn't find login with id {loginId}");
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogLevel.Error, $"Error while call GetCertificate - {ex}");
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

@@ -16,11 +16,14 @@ namespace DeviceService
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            InitDbContext(modelBuilder);
+            InitDbContext(modelBuilder, true);
         }
 
-        public static void InitDbContext(ModelBuilder modelBuilder)
+        public static void InitDbContext(ModelBuilder modelBuilder, bool initializeDerivedContext)
         {
+            if (!initializeDerivedContext) 
+                return;
+
             DevicePlatformDbContext.InitDbContext(modelBuilder);
             modelBuilder.Entity<Device>().HasOne(device => device.DevicePlatform);
         }

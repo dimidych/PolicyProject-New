@@ -24,11 +24,14 @@ namespace PolicySetService.Models
 
         public string PolicyParam { get; set; }
 
+        [NotMapped]
         public virtual Login UserLogin { get; set; }
 
-        public virtual Group UserGroup { get; set; }
+        [NotMapped]
+        public virtual Group PolicySetGroup { get; set; }
 
-        public virtual Policy Policy { get; set; }
+        [NotMapped]
+        public virtual Policy PolicySetPolicy { get; set; }
 
         [Timestamp]
         public byte[] Timestamp { get; set; }

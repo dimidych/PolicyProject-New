@@ -18,12 +18,18 @@ namespace LoginService.Models
 
         public DbSet<Group> Groups { get; set; }
 
-        public static void InitDbContext(ModelBuilder modelBuilder)
+        public static void InitDbContext(ModelBuilder modelBuilder, bool initializeDerivedContext)
         {
-            UserDbContext.InitDbContext(modelBuilder);
-            GroupDbContext.InitDbContext(modelBuilder);
-            modelBuilder.Entity<Login>().HasOne(x => x.User);
-            modelBuilder.Entity<Login>().HasOne(x => x.Group);
+            if (initializeDerivedContext)
+            {
+                UserDbContext.InitDbContext(modelBuilder);
+                modelBuilder.Entity<Login>().HasOne(x => x.LoginUser);
+                GroupDbContext.InitDbContext(modelBuilder);
+                modelBuilder.Entity<Login>().HasOne(x => x.LoginGroup);
+            }
+            else
+                modelBuilder.Ignore<Group>();
+
             modelBuilder.Entity<Login>().HasData(new Login
             {
                 LoginId = ConstStore.AdminLoginIdGuid,
@@ -37,7 +43,7 @@ namespace LoginService.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            InitDbContext(modelBuilder);
+            InitDbContext(modelBuilder, true);
         }
     }
 }

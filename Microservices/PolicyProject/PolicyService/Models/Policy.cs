@@ -22,7 +22,7 @@ namespace PolicyService
 
         public string PolicyDefaultParam { get; set; }
 
-        public virtual DevicePlatform Platform { get; set; }
+        public virtual DevicePlatform DevicePlatform { get; set; }
 
         [Timestamp]
         public byte[] Timestamp { get; set; }

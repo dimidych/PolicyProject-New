@@ -16,19 +16,20 @@ namespace PolicySetService.Models
         }
 
         public DbSet<DevicePlatform> DevicePlatforms { get; set; }
-        public DbSet<Policy> Policies { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Policy> Policies { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Login> Logins { get; set; }
         public DbSet<PolicySet> PolicySets { get; set; }
 
         public static void InitDbContext(ModelBuilder modelBuilder)
         {
-            PolicyDbContext.InitDbContext(modelBuilder);
-            LoginDbContext.InitDbContext(modelBuilder);
-            modelBuilder.Entity<PolicySet>().HasOne(x => x.Policy);
+            modelBuilder.Ignore<DevicePlatform>().Ignore<User>();
+            PolicyDbContext.InitDbContext(modelBuilder, false);
+            LoginDbContext.InitDbContext(modelBuilder, false);
+            modelBuilder.Entity<PolicySet>().HasOne(x => x.PolicySetPolicy);
             modelBuilder.Entity<PolicySet>().HasOne(x => x.UserLogin);
-            modelBuilder.Entity<PolicySet>().HasOne(x => x.UserGroup);
+            modelBuilder.Entity<PolicySet>().HasOne(x => x.PolicySetGroup);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

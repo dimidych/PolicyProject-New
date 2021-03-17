@@ -14,15 +14,18 @@ namespace PolicyService.Models
 
         public DbSet<Policy> Policies { get; set; }
 
-        public static void InitDbContext(ModelBuilder modelBuilder)
+        public static void InitDbContext(ModelBuilder modelBuilder, bool initializeDerived)
         {
+            if (!initializeDerived)
+                return;
+
             DevicePlatformDbContext.InitDbContext(modelBuilder);
-            modelBuilder.Entity<Policy>().HasOne(x => x.Platform);
+            modelBuilder.Entity<Policy>().HasOne(device => device.DevicePlatform);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            InitDbContext(modelBuilder);
+            InitDbContext(modelBuilder, true);
         }
     }
 }

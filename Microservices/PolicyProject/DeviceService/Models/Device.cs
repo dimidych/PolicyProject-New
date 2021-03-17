@@ -25,7 +25,7 @@ namespace DeviceService
 
         [Required]
         public short DevicePlatformId { get; set; }
-
+        
         public virtual DevicePlatform DevicePlatform { get; set; }
 
         [Timestamp]

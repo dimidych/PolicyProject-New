@@ -44,7 +44,8 @@ namespace PolicySetService.Models
                 result = await _policySetDbContext.PolicySets.AsNoTracking().ToListAsync();
             else
                 result.AddRange(_policySetDbContext.PolicySets.AsNoTracking().Where(x =>
-                    (policySet.PolicyId != Guid.Empty && x.PolicyId == policySet.PolicyId)
+                    (policySet.PolicySetId != Guid.Empty && x.PolicySetId == policySet.PolicySetId)
+                    || (policySet.PolicyId != Guid.Empty && x.PolicyId == policySet.PolicyId)
                     || (policySet.LoginId != null && x.LoginId == policySet.LoginId)
                     || (policySet.GroupId != null && x.GroupId == policySet.GroupId)));
 
