@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RabbitMqEventBus
+namespace EventBus
 {
     public class SubscriptionInfo
     {
@@ -17,6 +17,7 @@ namespace RabbitMqEventBus
         {
             return new SubscriptionInfo(true, handlerType);
         }
+
         public static SubscriptionInfo Typed(Type handlerType)
         {
             return new SubscriptionInfo(false, handlerType);

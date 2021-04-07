@@ -22,9 +22,11 @@
   <ItemGroup>
     <ProjectReference Include="..\DevelopmentLogger\DevelopmentLogger.csproj" />
     <ProjectReference Include="..\DevicePlatformEntity\DevicePlatformEntity.csproj" />
+    <ProjectReference Include="..\RabbitMqEventBus\RabbitMqEventBus.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Integration\EventHandling\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace RabbitMqEventBus
+namespace EventBus
 {
     public class IntegrationEvent
     {
@@ -12,10 +12,11 @@ namespace RabbitMqEventBus
         }
 
         [JsonConstructor]
-        public IntegrationEvent(Guid id, DateTime createDate)
+        public IntegrationEvent(Guid id, DateTime createDate, string programName)
         {
             Id = id;
             CreationDate = createDate;
+            ProgramName = programName;
         }
 
         [JsonProperty]
@@ -23,5 +24,8 @@ namespace RabbitMqEventBus
 
         [JsonProperty]
         public DateTime CreationDate { get; private set; }
+
+        [JsonProperty]
+        public string ProgramName { get; private set; }
     }
 }

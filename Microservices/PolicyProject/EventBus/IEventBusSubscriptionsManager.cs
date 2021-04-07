@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace RabbitMqEventBus
+namespace EventBus
 {
     public interface IEventBusSubscriptionsManager
     {

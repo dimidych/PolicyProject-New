@@ -1,4 +1,4 @@
-﻿namespace RabbitMqEventBus
+﻿namespace EventBus
 {
     public interface IEventBus
     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using EventBus;
 
 namespace RabbitMqEventBus
 {
@@ -63,14 +64,12 @@ namespace RabbitMqEventBus
             }
         }
 
-
         public void RemoveDynamicSubscription<TH>(string eventName)
             where TH : IDynamicIntegrationEventHandler
         {
             var handlerToRemove = FindDynamicSubscriptionToRemove<TH>(eventName);
             DoRemoveHandler(eventName, handlerToRemove);
         }
-
 
         public void RemoveSubscription<T, TH>()
             where TH : IIntegrationEventHandler<T>
@@ -80,7 +79,6 @@ namespace RabbitMqEventBus
             var eventName = GetEventKey<T>();
             DoRemoveHandler(eventName, handlerToRemove);
         }
-
 
         private void DoRemoveHandler(string eventName, SubscriptionInfo subsToRemove)
         {
@@ -116,13 +114,11 @@ namespace RabbitMqEventBus
             handler?.Invoke(this, eventName);
         }
 
-
         private SubscriptionInfo FindDynamicSubscriptionToRemove<TH>(string eventName)
             where TH : IDynamicIntegrationEventHandler
         {
             return DoFindSubscriptionToRemove(eventName, typeof(TH));
         }
-
 
         private SubscriptionInfo FindSubscriptionToRemove<T, TH>()
             where T : IntegrationEvent

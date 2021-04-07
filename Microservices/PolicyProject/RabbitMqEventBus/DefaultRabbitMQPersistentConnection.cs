@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Net.Sockets;
+using EventBus;
 using Polly;
 using Polly.Retry;
 using RabbitMQ.Client;
@@ -28,10 +29,7 @@ namespace RabbitMqEventBus
             _retryCount = retryCount;
         }
 
-        public bool IsConnected
-        {
-            get { return _connection != null && _connection.IsOpen && !_disposed; }
-        }
+        public bool IsConnected => _connection != null && _connection.IsOpen && !_disposed;
 
         public IModel CreateModel()
         {

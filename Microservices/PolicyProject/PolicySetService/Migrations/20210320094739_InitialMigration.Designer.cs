@@ -10,7 +10,7 @@ using PolicySetService.Models;
 namespace PolicySetService.Migrations
 {
     [DbContext(typeof(PolicySetDbContext))]
-    [Migration("20210317192531_InitialMigration")]
+    [Migration("20210320094739_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,6 +38,13 @@ namespace PolicySetService.Migrations
                     b.HasKey("GroupId");
 
                     b.ToTable("Groups");
+
+                    b.HasData(
+                        new
+                        {
+                            GroupId = new Guid("b96c8d96-94d5-40df-bdc8-852b10199a4a"),
+                            GroupName = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("LoginService.Models.Login", b =>
@@ -74,7 +81,7 @@ namespace PolicySetService.Migrations
                         new
                         {
                             LoginId = new Guid("fa3585fd-b259-4bb5-a37e-ce917fd13154"),
-                            Certificate = "BwIAAACkAABSU0EyAAQAAAEAAQDBA9RfpDDf7vPUf760Zd3I2qknF+TBKmTkqPfLomG751XKApjRtNOG+3uvytkFocqjPoJOpEkuxR8YNBTqQ8GwpKfQGROeie3zNdgTwwyr+QptqJZICLBqMKV/C1O4rl7SNn8nSa8+iISviPa5mzV3Jip9WZWAy2NUISVk4VHotn80LWYup0rRd69i/mQX3iIy/lX2tCq53EKSePxLdu8zG1DdoafcnJtKroVgoD3CvS2mYuwrGNgBBjolHw6C+ua/p6WvJxGD0my9QTGtPsv6Ysg22ZpdWdYryAztq7LQFQyGKQHjfsJkPDtCxTFWeQb4PT6mN7YgI5sg2MzitLjKS0+L43eZI5iHcJ89cep6cXmU8KOimmjx08UFqLVshQs3STovQfxyafMSd6uDF1x8ZqhfHCJlcE3d/yPPqQkBVDlH+2VvAgYTzQU9ya5tLd9qQlulCpOJawjTLwn7ngd5pSz4PgDx9cC0ScarZR6Xl7slEHYk3o3HoE8m399ESIsj/qKKlvARGukw1roSrxY3I7RT6Hj5D1le0rh8Wr738vgNk3x8fnk1Xo6Q+HUeMI7fOLYFXTqYaD/4cWBHYbUtNQ0hdobO+dZHwhTDS6519oDb+b9kJPfQkOFL4kbEcFi3I0on2QdJVzBLMzDhAeziSy3OLg0PWKPQmTAZWfroVCs2X6GyRsn4BoLsW+Kfidghn1rpfrSnt68yvCMehXqmYojtWQxd/SDbSuR5D/Wc5F98DefQphY2lNOyFc8sRp8=",
+                            Certificate = "BwIAAACkAABSU0EyAAQAAAEAAQAhV7VjfSecV/26TakgrUsnnfaK7T/OuQaVj7uND40sJyr0gG2CfRB0rdhDcnNpNsb8Necz78mAxhiAN4MgrvwB334f4vWGlTOqrCaTSVmh5ubWTcUSVCmG8IrvCRAjDjPWDJj33/tF4CNVwClYD4LvmPG0+/tOQOZUdwIsibEp1eMFXmlPdXyA70YrtHrafJBAQeGPfqOpfh1yoFRu3UebV05vlxsY8ZzWdiR6LxuJ5kYz+Y5ZXzprZfHikEJayNkrXguOuOsu1caBA1kFw/OWhNjYOYvYx3eWpZf+19Zj/wK1FSfmh+30L/EFCcZz0lutRCyRlKyp5+IqsLKazZH6t6BeinsYhP0bt4THnvfyEykdYe75Grf2oTe3uTSkHXBnKD3fDiLgXD5KBgf9x5di8o8D6CDD7vkkH5Eg54PClVlmftda3uL3K4MIl/nmjkgqsYEmspjBnfjQRWWNAn8+nCFuGDAX1xUe517VqWnZQyExNjP6ivXFKYV10K5lZY4J5wmQzl2wk20q4XIhFF3IeVlVpC5Es+V6f2e+rRG1GbdL0b/ETPHkItGcdeF7p1kHQE7JEeEnGcoap2SpBsgCYXLAvKwGXN5lO61rMjoc6gJZ75i8fyRVD2a7O8kDDTm25eZFwAmAwQQxKDhffatXXstjM+dRPMMa0Y6xNXCoecfUWZ/iaEJB0MQWSkYg3rWYfuhWibu3Vx/MP8AWrCmPEJqaLutyuc3tM85ZldqAnsujfLjRfHAHwAXWy8dwnL0=",
                             GroupId = new Guid("b96c8d96-94d5-40df-bdc8-852b10199a4a"),
                             LogIn = "Admin",
                             Password = "827ccb0eea8a706c4c34a16891f84e7b",

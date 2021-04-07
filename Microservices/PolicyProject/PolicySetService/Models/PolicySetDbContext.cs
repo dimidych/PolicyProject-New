@@ -27,6 +27,7 @@ namespace PolicySetService.Models
             modelBuilder.Ignore<DevicePlatform>().Ignore<User>();
             PolicyDbContext.InitDbContext(modelBuilder, false);
             LoginDbContext.InitDbContext(modelBuilder, false);
+            GroupDbContext.InitDbContext(modelBuilder);
             modelBuilder.Entity<PolicySet>().HasOne(x => x.PolicySetPolicy);
             modelBuilder.Entity<PolicySet>().HasOne(x => x.UserLogin);
             modelBuilder.Entity<PolicySet>().HasOne(x => x.PolicySetGroup);
